@@ -121,8 +121,8 @@ def check_config() -> None:
             error(f"config.json 缺少 anki.{key}")
     for key in ("vocab", "phrases", "listening"):
         deck = cfg.get("anki", {}).get("decks", {}).get(key, "")
-        if not deck.startswith("PaperToTalk::"):
-            error(f"config.json 的 anki.decks.{key} 应以 PaperToTalk:: 开头，实际为 {deck!r}")
+        if not deck.startswith("Prism::"):
+            error(f"config.json 的 anki.decks.{key} 应以 Prism:: 开头，实际为 {deck!r}")
     for key in ("vocab", "phrase", "listening"):
         if not cfg.get("anki", {}).get("models", {}).get(key):
             error(f"config.json 缺少 anki.models.{key}")

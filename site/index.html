@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism — 把一篇论文拆成读、写、说</title>
+<meta name="description" content="Prism 是本地优先的学术英语工作台：从 Zotero 挑一篇论文，生成 3 分钟讲述稿、Kokoro 示范音、录音复盘、Phrasebank 改写与 Anki 复习。数据全在你自己机器上。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Prism — 把一篇论文拆成读、写、说">
+<meta property="og:description" content="本地优先的学术英语工作台：读、写、说、复习在同一个窗口里闭环。">
+<meta property="og:image" content="assets/overview.png">
+<meta property="og:url" content="https://lumenhao.github.io/Prism/">
+<meta name="theme-color" content="#0f1116">
+<link rel="icon" href="assets/prism-64.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#top"><img src="assets/prism-64.png" alt="" width="26" height="26"><span>Prism</span></a>
+  <nav class="links">
+    <a href="#why">为什么</a>
+    <a href="#tour">工作区</a>
+    <a href="#start">开始</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav-actions">
+    <button id="theme" class="ghost" aria-label="切换深浅色">浅色</button>
+    <a class="solid" href="https://github.com/Lumenhao/Prism">GitHub</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">local-first · windows · MIT</p>
+      <h1>论文读完了，<br>却讲不出来？</h1>
+      <p class="lede">Prism 把<strong>同一篇论文</strong>拆成读、写、说三条可练习的线：从 Zotero 取出文献，生成 3 分钟讲述稿，听示范音、录自己的版本、拿到可比较的复盘，再把标注送进 Anki。一个窗口，一条闭环，数据全部留在本机。</p>
+      <div class="cta">
+        <a class="solid big" href="https://github.com/Lumenhao/Prism/archive/refs/heads/main.zip">下载 Prism</a>
+        <a class="ghost big" href="#start">两步启动 →</a>
+      </div>
+      <ul class="proof">
+        <li><b>341</b> 篇 Zotero 文献只读索引</li>
+        <li><b>177.75s</b> Kokoro 示范音</li>
+        <li><b>WER 9.8%</b> 真实录音复盘</li>
+        <li><b>0</b> 条数据上传</li>
+      </ul>
+    </div>
+    <figure class="hero-shot">
+      <img src="assets/overview.png" alt="Prism 工作台 Overview 界面" width="1440" height="900">
+      <figcaption>Overview：今天练什么，一眼看到</figcaption>
+    </figure>
+  </section>
+
+  <section class="strip">
+    <span>Read</span><i>→</i><span>Write</span><i>→</i><span>Speak</span><i>→</i><span>Review</span><i>→</i><span>Compare</span>
+  </section>
+
+  <section id="why" class="block">
+    <h2>你可能正卡在这三个地方</h2>
+    <div class="cards three">
+      <article>
+        <h3>读得懂，说不出</h3>
+        <p>论文里的好句子读完就散了，轮到自己讲，只剩下 “This paper is about…”。Prism 把论文直接变成一份结构完整的 3 分钟讲述稿，并给出示范音。</p>
+      </article>
+      <article>
+        <h3>改得动，不像自己</h3>
+        <p>模板、语法检查、润色工具各管一段，复制粘贴来回切换。Prism 按论证功能检索 40 条 Phrasebank 句型，点一下就插进你正在写的段落。</p>
+      </article>
+      <article>
+        <h3>背了词，用不上</h3>
+        <p>标注留在 Zotero，复习在 Anki，口语又是另一个软件。Prism 把带翻译的标注一键导出成卡片，并把每次练习记进同一份进度里。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="tour" class="block">
+    <h2>六个工作区，各管一件事</h2>
+    <div class="tour">
+      <article class="shot-card">
+        <img src="assets/library.png" alt="Library 工作区" loading="lazy">
+        <div><h3>Library · 读</h3><p>搜索 Zotero 文库，看摘要、标签与标注；打开 PDF、定位到 Zotero；点 <b>生成讲述稿</b> 得到一份带术语标记的稿子。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/speak.png" alt="Speak 工作区" loading="lazy">
+        <div><h3>Speak · 说</h3><p>Kokoro 合成示范音（CPU 可跑），术语自动套用读法表；Terms 面板给出 YouGlish 语境链接；上传录音进入复盘。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/report.png" alt="录音复盘报告" loading="lazy">
+        <div><h3>Analyze · 比较</h3><p>Whisper 转写 → 与稿子逐词对齐 → Praat 测音高、强度与停顿，给出内容词 WER、波形与最值得改的 3 个动作。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/write.png" alt="Write 工作区" loading="lazy">
+        <div><h3>Write · 写</h3><p>按 Introduction / Methods / Results / Discussion 检索句型，插进段落实验室，再用 Vale 与内置规则给出可执行的修改项。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/vocab.png" alt="Vocab 工作区" loading="lazy">
+        <div><h3>Vocab · 复习</h3><p>预览 Zotero 里带翻译的标注，一键写入 Anki 的 <code>Prism::*</code> 牌组；首页显示今日到期数，第二天照常复习。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/settings.png" alt="Settings 工作区" loading="lazy">
+        <div><h3>Settings · 检查</h3><p>改端口、Anki 与 Zotero 路径、音色与模型；每个外部工具显示真实路径与状态；深色 / 浅色主题在这里切换。</p></div>
+      </article>
+    </div>
+    <p class="theme-note">两种主题，随时切换 —— 深色适合夜里，浅色适合白天和投影。</p>
+    <figure class="hero-shot alt">
+      <img src="assets/overview-light.png" alt="Prism 浅色主题" loading="lazy" width="1440" height="900">
+    </figure>
+  </section>
+
+  <section id="start" class="block narrow">
+    <h2>两步启动</h2>
+    <ol class="steps">
+      <li><span>1</span><div><h3>拿到代码</h3><p><code>git clone https://github.com/Lumenhao/Prism.git</code>，或在 GitHub 点 <b>Code → Download ZIP</b> 解压。</p></div></li>
+      <li><span>2</span><div><h3>双击 <code>Prism.bat</code></h3><p>第一次会自动建虚拟环境、装 CPU 版依赖（约 1.5 GB，5–15 分钟），装完直接打开工作台。之后每次启动只要几秒。</p></div></li>
+      <li><span>3</span><div><h3>（可选）接上你自己的资料</h3><p>Zotero：Settings 里填 <code>zotero.sqlite</code> 路径。Anki：装好 <a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect</a> 并启动 Anki，然后在 <b>Vocab → 初始化牌组</b>。</p></div></li>
+    </ol>
+    <div class="install">
+      <p>安装位置统一收在一处，方便整体删除：</p>
+      <pre>E:\LumenSuite
+├─ Prism\    代码、.venv、data（录音 / 报告 / 快照）
+├─ models\   Kokoro、Whisper、HuggingFace 缓存
+├─ tools\    Python 3.12、Anki、Vale、FFmpeg
+└─ cache\    uv / pip 下载缓存</pre>
+      <p class="muted">没有 E 盘时自动改用 <code>%LOCALAPPDATA%\LumenSuite</code>，也可以用环境变量 <code>LUMEN_SUITE</code> 指定。</p>
+    </div>
+  </section>
+
+  <section id="faq" class="block narrow">
+    <h2>常见问题</h2>
+    <details open><summary>我的论文、录音会被上传吗？</summary><p>不会。Zotero 走只读快照，Anki 走本机 <code>127.0.0.1:8765</code>；模型下载是唯一的联网步骤，练习数据只写本地 <code>data/</code>。</p></details>
+    <details><summary>Anki 显示“未连接”，是牌组名的问题吗？</summary><p>不是。连接只取决于三件事：Anki 正在运行、AnkiConnect 已安装并启用、端口是 8765。牌组统一叫 <code>Prism::Vocab</code> / <code>Prism::Phrases</code> / <code>Prism::Listening</code>；旧的 <code>PaperToTalk::*</code> 牌组会在初始化时自动迁移卡片。</p></details>
+    <details><summary>不用 Zotero 或 Anki 能用吗？</summary><p>可以。Speak 与 Write 不依赖它们；Library 需要 Zotero 数据库，Vocab 需要 Anki。缺哪个，对应页面会给提示，其余功能照常。</p></details>
+    <details><summary>第一次合成语音要下载什么？</summary><p>Kokoro 约 330 MB、Whisper <code>base.en</code> 约 150 MB，默认走 <code>hf-mirror.com</code>，落在 <code>E:\LumenSuite\models</code>，之后离线可用。</p></details>
+    <details><summary>支持 macOS / Linux 吗？</summary><p>后端是 FastAPI + 静态前端，理论上可跑；目前只在 Windows 上验证过启动脚本与桌面窗口。其他系统可手动安装依赖后运行 <code>python -m uvicorn app.server:APP --port 7317</code>。</p></details>
+    <details><summary>怎么彻底删除？</summary><p>删掉仓库目录，再删 <code>E:\LumenSuite</code>（或你设置的 <code>LUMEN_SUITE</code>）。Anki 里导出的卡片在 Anki 内删除。</p></details>
+  </section>
+
+  <section class="block cta-final">
+    <h2>打开一个窗口，把一篇论文练完</h2>
+    <div class="cta">
+      <a class="solid big" href="https://github.com/Lumenhao/Prism">在 GitHub 查看</a>
+      <a class="ghost big" href="https://github.com/Lumenhao/Prism/archive/refs/heads/main.zip">下载 ZIP</a>
+    </div>
+    <p class="muted">Windows 10/11 x64 · Python 3.12 · 代码 MIT，文档 CC BY-NC 4.0</p>
+  </section>
+</main>
+
+<footer>
+  <p><b>Prism</b> 是 <a href="https://github.com/Lumenhao/Lumen">Lumen · 星皓书房</a> 系列的第二件作品：Lumen 收光，Prism 把一束光拆成光谱。</p>
+  <p class="muted">© 2026 Haoming Xing · <a href="https://github.com/Lumenhao/Prism">Source</a> · <a href="https://github.com/Lumenhao/Prism/blob/main/PRIVACY.md">Privacy</a> · <a href="https://github.com/Lumenhao/Prism/blob/main/CHANGELOG.md">Changelog</a></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

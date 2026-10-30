@@ -73,16 +73,19 @@ def load_pronunciation() -> dict[str, str]:
     return {k: v for k, v in data.items() if not k.startswith("_") and isinstance(v, str)}
 
 
+FRONT_MATTER = re.compile(r"\A---[ \t]*\r?\n.*?(?:\r?\n)---[ \t]*(?:\r?\n|\Z)", re.S)
+
+
+def strip_front_matter(text: str) -> str:
+    return FRONT_MATTER.sub("", text.lstrip("\ufeff\x00 "), count=1)
+
+
 def read_markdown(path: str | Path) -> str:
-    text = Path(path).read_text(encoding="utf-8-sig")
-    if text.startswith("---"):
-        parts = text.split("---", 2)
-        if len(parts) >= 3:
-            text = parts[2]
-    return text
+    return strip_front_matter(Path(path).read_text(encoding="utf-8-sig"))
 
 
 def clean_markdown(text: str) -> str:
+    text = strip_front_matter(text)
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
     text = re.sub(r"```.*?```", "", text, flags=re.S)
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text)
@@ -577,7 +580,7 @@ def cmd_check(args: argparse.Namespace) -> None:
         "",
         "1. 只挑上面 1-2 项，重录同一段 60-90 秒；",
         "2. 换一位真人听众，请对方复述主旨和一个细节；",
-        "3. 把这次反复出错的 1-3 个词块加入 Anki（`PaperToTalk::Vocab` 或 `Phrases`）。",
+        "3. 把这次反复出错的 1-3 个词块加入 Anki（`Prism::Vocab` 或 `Phrases`）。",
         "",
         "> 自动指标只描述声音信号，不证明对方听懂了。最终证据仍然是听众能否复述、追问和执行。",
         "",

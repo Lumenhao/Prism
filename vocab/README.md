@@ -6,7 +6,7 @@
 
 ```
 Zotero PDF 标注（带翻译注释） ──┐
-                                ├─→ Anki「PaperToTalk::Vocab」→ 每日复习提醒
+                                ├─→ Anki「Prism::Vocab」→ 每日复习提醒
 Yomitan 网页划词 ───────────────┘
 ```
 
@@ -19,9 +19,9 @@ Yomitan 网页划词 ───────────────┘
    python vocab/anki_setup.py
    ```
    会创建：
-   - `PaperToTalk::Vocab`（词汇）
-   - `PaperToTalk::Phrases`（学术句型，含 40 张种子卡）
-   - `PaperToTalk::Listening`（报告/字幕听力卡）
+   - `Prism::Vocab`（词汇）
+   - `Prism::Phrases`（学术句型，含 40 张种子卡）
+   - `Prism::Listening`（报告/字幕听力卡）
    - 笔记类型：`AE Vocab`、`AE Phrase`、`AE Subs`
 4. **配置 Zotero PDF Translate**：
    - 安装 [zotero-pdf-translate](https://github.com/windingwind/zotero-pdf-translate)；
@@ -90,7 +90,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\vocab\install_reminder.ps1
 | 参数 | 作用 |
 |---|---|
 | `-Time "07:30"` | 改提醒时间 |
-| `-TaskName "PaperToTalk Review"` | 改计划任务名 |
+| `-TaskName "Prism Review"` | 改计划任务名 |
 | `-OpenAnki` | 提醒时顺便打开 Anki |
 | `-Uninstall` | 删除计划任务 |
 
@@ -99,10 +99,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\vocab\install_reminder.ps1
 等价的手动命令：
 
 ```powershell
-schtasks /Create /SC DAILY /TN "PaperToTalk Review" ^
+schtasks /Create /SC DAILY /TN "Prism Review" ^
   /TR "powershell -NoProfile -ExecutionPolicy Bypass -File \"<repo>\vocab\remind.ps1\"" ^
   /ST 20:30
-schtasks /Delete /TN "PaperToTalk Review" /F
+schtasks /Delete /TN "Prism Review" /F
 ```
 
 ## 复习节奏（建议）

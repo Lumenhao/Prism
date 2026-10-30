@@ -1,12 +1,12 @@
 # 贡献指南
 
-感谢你愿意改进 PaperToTalk。这个项目的目标不是“收集更多工具”，而是让每条学习线**可执行、可测量、可复盘**。提交前请先确认改动服务于这个目标。
+感谢你愿意改进 Prism。这个项目的目标不是“收集更多工具”，而是让每条学习线**可执行、可测量、可复盘**。提交前请先确认改动服务于这个目标。
 
 ## 开发环境
 
 ```powershell
-git clone https://github.com/Lumenhao/PaperToTalk.git
-cd PaperToTalk
+git clone https://github.com/Lumenhao/Prism.git
+cd Prism
 python -m pip install -r requirements-dev.txt
 python scripts/validate.py
 python -m unittest discover -s tests -v

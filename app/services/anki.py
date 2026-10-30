@@ -126,6 +126,8 @@ def setup(progress: Callable[[str, float | None], None] | None = None) -> dict[s
     cfg = load_config()
     url = _url()
     progress("读取配置", 0.05)
+    for old, new, count in anki.migrate_legacy_decks(url, cfg["anki"]["decks"]):
+        progress(f"迁移旧牌组 {old} → {new}（{count} 张）", 0.15)
     made = []
     for key in ("vocab", "phrases", "listening"):
         deck = cfg["anki"]["decks"][key]

@@ -73,7 +73,7 @@ if ($due -gt 0) {
         Add-Type -AssemblyName System.Drawing
         $notify = New-Object System.Windows.Forms.NotifyIcon
         $notify.Icon = [System.Drawing.SystemIcons]::Information
-        $notify.BalloonTipTitle = "PaperToTalk · 该复习了"
+        $notify.BalloonTipTitle = "Prism · 该复习了"
         $notify.BalloonTipText = $message
         $notify.Visible = $true
         $notify.ShowBalloonTip(10000)

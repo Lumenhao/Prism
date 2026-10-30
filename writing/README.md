@@ -53,7 +53,7 @@
 
 ### 3. Phrasebank 种子卡
 
-`phrasebank/phrasebank_seed.csv` 有 40 条按功能分类的句型；运行 `python vocab/anki_setup.py` 后会导入 `PaperToTalk::Phrases`（重复项会跳过）。
+`phrasebank/phrasebank_seed.csv` 有 40 条按功能分类的句型；运行 `python vocab/anki_setup.py` 后会导入 `Prism::Phrases`（重复项会跳过）。
 
 卡片正面是**中文意图 + 功能标签**，背面是句型模板和领域例句。复习时要做的不是“认得这个句型”，而是**看到中文意图，10 秒内说出/写出一个结构正确的英文句子**。
 

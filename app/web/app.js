@@ -24,6 +24,8 @@ const ICONS = {
   download: '<path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/>',
   zap: '<path d="M13 2 4 14h7l-1 8 9-12h-7Z"/>',
   wave: '<path d="M2 12h3l2-6 3 12 3-9 2 5 2-2h5"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>',
   target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
   layers: '<path d="m12 2 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>'
 };
@@ -96,6 +98,32 @@ function toast(message, kind = "") {
 }
 
 function setRoute(name) { location.hash = `#/${name}`; }
+
+/* --------------------------------------------------------------- theme */
+
+function currentTheme() {
+  return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+}
+
+function syncThemeIcon() {
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  const dark = currentTheme() === "dark";
+  btn.innerHTML = icon(dark ? "sun" : "moon");
+  btn.title = dark ? "切换到浅色主题 (Ctrl Shift L)" : "切换到深色主题 (Ctrl Shift L)";
+}
+
+function applyTheme(theme) {
+  const next = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("prism-theme", next); } catch (_) { /* private mode */ }
+  if (window.pywebview?.api?.set_theme) {
+    window.pywebview.api.set_theme(next).catch(() => {});
+  }
+  syncThemeIcon();
+}
+
+function toggleTheme() { applyTheme(currentTheme() === "dark" ? "light" : "dark"); }
 
 /* --------------------------------------------------------------- shell */
 
@@ -217,11 +245,11 @@ function renderOverview() {
         </div>
         <div class="review-ring">
           <svg class="ring" viewBox="0 0 78 78">
-            <circle cx="39" cy="39" r="30" fill="none" stroke="#242933" stroke-width="5"/>
+            <circle cx="39" cy="39" r="30" fill="none" stroke="var(--track)" stroke-width="5"/>
             <circle cx="39" cy="39" r="30" fill="none" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"
               stroke-dasharray="${(ringC * ringProgress).toFixed(1)} ${ringC}" transform="rotate(-90 39 39)"/>
             <text x="39" y="42" text-anchor="middle">${due}</text>
-            <text x="39" y="53" text-anchor="middle"><tspan style="font-size:7px;fill:#5f6673">DUE TODAY</tspan></text>
+            <text x="39" y="53" text-anchor="middle"><tspan style="font-size:7px;fill:var(--faint)">DUE TODAY</tspan></text>
           </svg>
           <div class="review-nums">
             <span><b>${data.anki?.new ?? 0}</b> new</span>
@@ -892,16 +920,16 @@ function renderVocab() {
       <div class="card stat-card"><div class="k">AnkiConnect</div><div class="v" style="color:${anki.connected ? "var(--ok)" : "var(--bad)"}">${anki.connected ? "Live" : "Offline"}</div><div class="s">${esc(anki.url || "")}</div></div>
       <div class="card stat-card"><div class="k">Due today</div><div class="v">${anki.connected ? anki.due : "—"}</div><div class="s">${anki.connected ? `${anki.new} new · ${anki.learning} learning · ${anki.review} review` : "启动 Anki 后读取"}</div></div>
       <div class="card stat-card"><div class="k">Zotero annotations</div><div class="v">${notes.length}</div><div class="s">带翻译的标注，可一键制卡</div></div>
-      <div class="card stat-card"><div class="k">Decks</div><div class="v">${anki.connected ? anki.decks.length : 3}</div><div class="s">${esc((anki.decks || ["PaperToTalk::Vocab", "Phrases", "Listening"]).join(" · "))}</div></div>
+      <div class="card stat-card"><div class="k">Decks</div><div class="v">${anki.connected ? anki.decks.length : 3}</div><div class="s">${esc((anki.decks || ["Prism::Vocab", "Prism::Phrases", "Prism::Listening"]).join(" · "))}</div></div>
     </div>
 
     <div class="vocab-grid">
       <div class="card panel">
         <div class="card-head"><div><div class="card-title">Review decks</div><div class="card-sub">学习记录留在 Anki，Prism 只读取统计</div></div><span class="pill ${anki.connected ? "ok" : ""}">${anki.connected ? "connected" : "offline"}</span></div>
-        ${(anki.decks || ["PaperToTalk::Vocab", "PaperToTalk::Phrases", "PaperToTalk::Listening"]).map((deck) => `
+        ${(anki.decks || ["Prism::Vocab", "Prism::Phrases", "Prism::Listening"]).map((deck) => `
           <div class="deck-row">
             <span class="ico" style="color:var(--coral)">${icon("layers")}</span>
-            <div><div class="nm">${esc(deck)}</div><div class="pth">PaperToTalk</div></div>
+            <div><div class="nm">${esc(deck)}</div><div class="pth">Prism</div></div>
             <span class="status"><span class="pill ${anki.connected ? "ok" : ""}">${anki.connected ? (anki.missingDecks?.includes(deck) ? "missing" : "ready") : "—"}</span></span>
           </div>`).join("")}
         <div class="btn-row" style="margin-top:16px">
@@ -972,7 +1000,7 @@ function renderSettings() {
     <div class="settings-grid">
       <div class="card settings-section">
         <h3>Connections</h3>
-        <p class="desc">所有路径与地址都保存在项目根目录的 config.json。</p>
+        <p class="desc">默认值在 config.json；本机改动写入不提交的 config.local.json。</p>
         <div class="field-row"><label>AnkiConnect</label><input id="set-anki-url" value="${esc(cfg.anki?.url || "")}"></div>
         <div class="field-row"><label>anki.exe</label><input id="set-anki-exe" value="${esc(cfg.system?.anki_exe || "")}"></div>
         <div class="field-row"><label>Zotero DB</label><input id="set-zotero" value="${esc(cfg.zotero?.db || "")}"></div>
@@ -1009,10 +1037,19 @@ function renderSettings() {
         <h3>About Prism</h3>
         <p class="desc">本地优先的论文英语工作台。Lumen 收书，Prism 拆光：读、写、说三条线共用一个界面。</p>
         <div class="meta-grid" style="border-top:0">
-          <div><div class="k">Version</div><div class="v">0.2.0 · alpha</div></div>
+          <div><div class="k">Version</div><div class="v">0.3.0 · beta</div></div>
           <div><div class="k">Data</div><div class="v">全部本地</div></div>
           <div><div class="k">Code</div><div class="v">MIT</div></div>
           <div><div class="k">Docs</div><div class="v">CC BY-NC 4.0</div></div>
+        </div>
+      </div>
+
+      <div class="card settings-section">
+        <h3>Appearance</h3>
+        <p class="desc">深色适合夜间读写，浅色适合白天和投影。选择会记在本机。</p>
+        <div class="btn-row">
+          <button class="chip ${currentTheme() === "dark" ? "active" : ""}" data-theme-choice="dark">${icon("moon")} 深色</button>
+          <button class="chip ${currentTheme() === "light" ? "active" : ""}" data-theme-choice="light">${icon("sun")} 浅色</button>
         </div>
       </div>
 
@@ -1043,6 +1080,9 @@ function renderSettings() {
       refreshAnkiChip();
     } catch (error) { toast(error.message, "bad"); }
   };
+  view.querySelectorAll("[data-theme-choice]").forEach((btn) => {
+    btn.onclick = () => { applyTheme(btn.dataset.themeChoice); renderSettings(); };
+  });
 }
 
 /* --------------------------------------------------------------- routing */
@@ -1172,6 +1212,7 @@ const PALETTE_ITEMS = [
   { label: "Write", hint: "phrasebank", icon: "pen", run: () => setRoute("write") },
   { label: "Vocab", hint: "Anki", icon: "cards", run: () => setRoute("vocab") },
   { label: "Settings", hint: "paths", icon: "sliders", run: () => setRoute("settings") },
+  { label: "Toggle light / dark", hint: "theme", icon: "sun", run: () => toggleTheme() },
   { label: "Generate sample audio", hint: "Kokoro", icon: "speaker", run: () => { setRoute("speak"); setTimeout(() => document.getElementById("tts-btn")?.click(), 500); } },
   { label: "Launch Anki", hint: "AnkiConnect", icon: "play", run: () => handleAction("anki-launch", {}) },
   { label: "Export annotations", hint: "Anki", icon: "download", run: () => { setRoute("vocab"); setTimeout(() => runAnkiAction("export"), 600); } },
@@ -1230,11 +1271,17 @@ function initPalette() {
 document.getElementById("open-palette").onclick = openPalette;
 document.getElementById("today-action").onclick = () => setRoute("speak");
 document.getElementById("anki-chip").onclick = () => setRoute("vocab");
+document.getElementById("theme-toggle").onclick = toggleTheme;
 document.getElementById("brand")?.addEventListener("click", () => setRoute("overview"));
 document.querySelector(".brand").onclick = () => setRoute("overview");
 
+window.addEventListener("pywebviewready", () => {
+  if (window.pywebview?.api?.set_theme) window.pywebview.api.set_theme(currentTheme());
+});
+
 document.addEventListener("keydown", (event) => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); openPalette(); }
+  if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "l") { event.preventDefault(); toggleTheme(); }
   if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); setRoute("speak"); }
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "a") { event.preventDefault(); handleAction("anki-launch", {}); }
   if (event.key === "Escape") closePalette();
@@ -1243,6 +1290,8 @@ document.addEventListener("keydown", (event) => {
 window.addEventListener("hashchange", route);
 
 (async function boot() {
+  const forced = new URLSearchParams(location.search).get("theme");
+  applyTheme(forced === "light" || forced === "dark" ? forced : currentTheme());
   initPalette();
   mountIcons(document);
   await refreshAnkiChip();

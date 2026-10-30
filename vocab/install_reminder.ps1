@@ -1,7 +1,7 @@
 ﻿[CmdletBinding()]
 param(
     [string]$Time = "20:30",
-    [string]$TaskName = "PaperToTalk Review",
+    [string]$TaskName = "Prism Review",
     [switch]$OpenAnki,
     [switch]$Uninstall
 )
@@ -61,7 +61,7 @@ try {
         -Trigger $trigger `
         -Settings $settings `
         -Principal $principal `
-        -Description "PaperToTalk 每日 Anki 复习提醒" `
+        -Description "Prism 每日 Anki 复习提醒" `
         -Force | Out-Null
     $registered = $true
 }

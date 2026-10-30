@@ -72,7 +72,7 @@ class ImportSeedTests(unittest.TestCase):
             raise AssertionError(action)
 
         anki.call = fake_call
-        added, skipped = anki.import_seed("http://unused", "PaperToTalk::Phrases", "AE Phrase", self.path, False)
+        added, skipped = anki.import_seed("http://unused", "Prism::Phrases", "AE Phrase", self.path, False)
         self.assertEqual((added, skipped), (1, 0))
 
         note = next(params["notes"][0] for action, params in calls if action == "canAddNotes")

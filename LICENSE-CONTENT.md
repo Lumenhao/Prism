@@ -11,7 +11,7 @@
 
 ## 你必须
 
-- **署名**：注明作者（`Haoming Xing (Lumenhao) and PaperToTalk contributors`），附上许可证链接，并说明是否作出修改；
+- **署名**：注明作者（`Haoming Xing (Lumenhao) and Prism contributors`），附上许可证链接，并说明是否作出修改；
 - **非商业**：不得将本作品用于商业目的。商业用途需另行获得书面许可。
 
 ## 不在本许可范围内
@@ -22,4 +22,4 @@
 
 ## 署名示例
 
-> 基于 PaperToTalk（作者 Haoming Xing / Lumenhao，CC BY-NC 4.0）修改，原文：https://github.com/Lumenhao/PaperToTalk
+> 基于 Prism（作者 Haoming Xing / Lumenhao，CC BY-NC 4.0）修改，原文：https://github.com/Lumenhao/Prism

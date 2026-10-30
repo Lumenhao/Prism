@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Prism — 从论文到讲述</title>
+  <script>
+    try { document.documentElement.dataset.theme = localStorage.getItem("prism-theme") === "light" ? "light" : "dark"; } catch (e) {}
+  </script>
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
@@ -18,7 +21,7 @@
         </svg>
         <div>
           <div class="wordmark">Prism</div>
-          <div class="brand-sub">paper to talk</div>
+          <div class="brand-sub">read · write · speak</div>
         </div>
       </div>
 
@@ -61,6 +64,9 @@
           <p id="page-sub">你的论文英语工作台</p>
         </div>
         <div class="top-actions">
+          <button class="icon-btn" id="theme-toggle" title="切换深色 / 浅色 (Ctrl Shift L)" aria-label="切换主题">
+            <span class="ico" data-icon="moon"></span>
+          </button>
           <button class="ghost-btn" id="open-palette">
             <span class="ico" data-icon="search"></span>
             <span>Quick actions</span>

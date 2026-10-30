@@ -33,7 +33,7 @@ mpvacious 是 mpv 的用户脚本：暂停在字幕上，按一下键，就把�
 新建 `%APPDATA%\mpv\script-opts\subs2srs.conf`。**`=` 两边不要留空格**。
 
 ```ini
-deck_name=PaperToTalk::Listening
+deck_name=Prism::Listening
 model_name=AE Subs
 sentence_field=Expression
 secondary_field=Meaning

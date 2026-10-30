@@ -84,7 +84,7 @@ class BuildNoteTests(unittest.TestCase):
         return row
 
     def test_maps_fields_and_source(self):
-        note = zotero.build_note(self.base_row(), "PaperToTalk::Vocab", "AE Vocab")
+        note = zotero.build_note(self.base_row(), "Prism::Vocab", "AE Vocab")
         self.assertEqual(note["fields"]["Word"], "F4-TCNQ")
         self.assertEqual(note["fields"]["Translation"], "四氟四氰基喹啉二甲烷")
         self.assertEqual(note["fields"]["Source"], "My Paper (p. 3)")

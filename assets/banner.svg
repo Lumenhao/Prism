@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Prism — paper to talk workbench">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Prism — read, write, speak">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0c0e12"/>
@@ -8,10 +8,6 @@
     <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#f3efe7"/>
       <stop offset="1" stop-color="#cfc8bb"/>
-    </linearGradient>
-    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#ffffff" stop-opacity=".9"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity=".25"/>
     </linearGradient>
     <radialGradient id="glow" cx=".8" cy=".15" r=".8">
       <stop offset="0" stop-color="#e8a091" stop-opacity=".22"/>
@@ -27,11 +23,11 @@
   <rect width="1200" height="300" rx="22" fill="url(#grid)"/>
 
   <!-- incoming white beam -->
-  <path d="M760 150H908" stroke="url(#beam)" stroke-width="2"/>
+  <path d="M760 150H908" stroke="#f4efe6" stroke-opacity=".7" stroke-width="2"/>
   <!-- prism -->
   <g transform="translate(908 58)">
     <path d="M64 0 128 108H0Z" fill="#171a21" stroke="#e9e5dd" stroke-opacity=".55" stroke-width="1.6"/>
-    <path d="M64 0 128 108H0Z" fill="none" stroke="url(#beam)" stroke-opacity=".18" stroke-width="6"/>
+    <path d="M64 0 128 108H0Z" fill="none" stroke="#f4efe6" stroke-opacity=".14" stroke-width="6"/>
     <!-- spectrum -->
     <path d="M72 58 250 26" stroke="#e8a091" stroke-width="3" stroke-linecap="round"/>
     <path d="M72 66 250 66" stroke="#d9b26f" stroke-width="3" stroke-linecap="round"/>

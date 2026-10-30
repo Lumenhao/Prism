@@ -17,6 +17,7 @@ DATA = ROOT / "data"
 AUDIO = DATA / "audio"
 REPORTS = DATA / "reports"
 CONFIG_PATH = ROOT / "config.json"
+CONFIG_LOCAL = ROOT / "config.local.json"
 SUITE = Path(os.environ.get("LUMEN_SUITE", "E:/LumenSuite"))
 TOOLS = SUITE / "tools"
 MODELS = SUITE / "models"
@@ -40,9 +41,9 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "anki": {
         "url": "http://127.0.0.1:8765",
         "decks": {
-            "vocab": "PaperToTalk::Vocab",
-            "phrases": "PaperToTalk::Phrases",
-            "listening": "PaperToTalk::Listening",
+            "vocab": "Prism::Vocab",
+            "phrases": "Prism::Phrases",
+            "listening": "Prism::Listening",
         },
         "models": {"vocab": "AE Vocab", "phrase": "AE Phrase", "listening": "AE Subs"},
     },
@@ -52,24 +53,30 @@ DEFAULT_CONFIG: dict[str, Any] = {
 }
 
 
-def load_config() -> dict[str, Any]:
-    if not CONFIG_PATH.exists():
-        return json.loads(json.dumps(DEFAULT_CONFIG))
+def _read_config(path: Path) -> dict[str, Any]:
     try:
-        cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8-sig"))
+        data = json.loads(path.read_text(encoding="utf-8-sig"))
     except (OSError, json.JSONDecodeError):
-        return json.loads(json.dumps(DEFAULT_CONFIG))
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def load_config() -> dict[str, Any]:
     merged = json.loads(json.dumps(DEFAULT_CONFIG))
-    for key, value in cfg.items():
-        if isinstance(value, dict) and isinstance(merged.get(key), dict):
-            merged[key].update(value)
-        else:
-            merged[key] = value
+    # config.local.json holds machine-specific paths and is never committed.
+    for path in (CONFIG_PATH, CONFIG_LOCAL):
+        if not path.exists():
+            continue
+        for key, value in _read_config(path).items():
+            if isinstance(value, dict) and isinstance(merged.get(key), dict):
+                merged[key].update(value)
+            else:
+                merged[key] = value
     return merged
 
 
 def save_config(cfg: dict[str, Any]) -> None:
-    CONFIG_PATH.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    CONFIG_LOCAL.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def _load_module(name: str, path: Path):

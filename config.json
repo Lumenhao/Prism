@@ -2,9 +2,9 @@
   "anki": {
     "url": "http://127.0.0.1:8765",
     "decks": {
-      "vocab": "PaperToTalk::Vocab",
-      "phrases": "PaperToTalk::Phrases",
-      "listening": "PaperToTalk::Listening"
+      "vocab": "Prism::Vocab",
+      "phrases": "Prism::Phrases",
+      "listening": "Prism::Listening"
     },
     "models": {
       "vocab": "AE Vocab",
@@ -13,7 +13,7 @@
     }
   },
   "zotero": {
-    "db": "E:/XuLab in Westlake University/Zotero/zotero.sqlite"
+    "db": "~/Zotero/zotero.sqlite"
   },
   "system": {
     "anki_exe": "E:/LumenSuite/tools/anki/Anki/anki.exe"

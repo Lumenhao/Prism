@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create the PaperToTalk decks/note types in Anki and import the phrase seed.
+"""Create the Prism decks/note types in Anki and import the phrase seed.
 
 Requires Anki + AnkiConnect (add-on code 2055492159) running on localhost.
 """
@@ -122,6 +122,34 @@ def ensure_deck(url: str, deck: str) -> bool:
     return True
 
 
+LEGACY_DECKS = {
+    "PaperToTalk::Vocab": "vocab",
+    "PaperToTalk::Phrases": "phrases",
+    "PaperToTalk::Listening": "listening",
+}
+
+
+def migrate_legacy_decks(url: str, decks: dict[str, str]) -> list[tuple[str, str, int]]:
+    """Move cards out of the pre-rename PaperToTalk decks, then drop the empty shell."""
+    existing = set(call(url, "deckNames"))
+    moved: list[tuple[str, str, int]] = []
+    for old, key in LEGACY_DECKS.items():
+        new = decks.get(key, "")
+        if old not in existing or not new or old == new:
+            continue
+        if new not in existing:
+            call(url, "createDeck", deck=new)
+            existing.add(new)
+        cards = call(url, "findCards", query=f'deck:"{old}"') or []
+        if cards:
+            call(url, "changeDeck", cards=cards, deck=new)
+        remaining = call(url, "findCards", query=f'deck:"{old}"') or []
+        if not remaining:
+            call(url, "deleteDecks", decks=[old], cardsToo=False)
+        moved.append((old, new, len(cards)))
+    return moved
+
+
 def ensure_model(url: str, name: str, spec: dict) -> bool:
     if name in call(url, "modelNames"):
         return False
@@ -226,6 +254,9 @@ def main() -> int:
             print(f"  {label:10s} {model:36s} {'OK' if model in existing_models else '缺失'}")
         return 0
 
+    for old, new, count in migrate_legacy_decks(url, decks):
+        print(f"迁移旧牌组：{old} → {new}（{count} 张卡片）")
+
     for label, deck in decks.items():
         created = ensure_deck(url, deck)
         print(f"{'创建' if created else '已存在'}牌组：{deck}")
@@ -244,7 +275,7 @@ def main() -> int:
 
     print("\n完成。下一步：")
     print("  1. 在 Anki 里打开 Tools → Manage note types，确认 3 个 AE 笔记类型存在。")
-    print("  2. 设置复习上限（可选）：PaperToTalk 牌组 → Options → New cards/day ≈ 10。")
+    print("  2. 设置复习上限（可选）：Prism 牌组 → Options → New cards/day ≈ 10。")
     print("  3. 运行 vocab/zotero_to_anki.py --dry-run 查看 Zotero 标注。")
     return 0
 

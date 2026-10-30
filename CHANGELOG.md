@@ -9,6 +9,29 @@
 - macOS / Linux 的 shell 等价脚本；
 - 可选的语音依赖 CI job。
 
+## [0.3.0] - 2026-10-30
+
+### Added
+
+- **浅色主题**：顶栏一键切换、Settings → Appearance、`Ctrl+Shift+L` 与命令面板均可切换；选择写入 `localStorage`，启动前内联脚本先应用，避免闪白。
+- **原生窗口外观**：标题栏颜色随主题变化（DWM caption / text / border），窗口图标改为 Prism，任务栏不再显示 Python 图标；Windows 进程 AppUserModelID 固定为 `Lumenhao.Prism`。
+- **一键启动**：`Prism.bat` 在缺少 `.venv` 时自动调用 `setup_env.ps1` 完成安装后直接开窗；`setup_env.ps1` 在没有 E 盘时回退到 `%LOCALAPPDATA%\LumenSuite`，并支持 `LUMEN_SUITE` 覆盖。
+- **项目主页**：`site/` 静态站（痛点、工作区导览、上手路径、FAQ）与 GitHub Pages 工作流。
+- **配置分层**：`config.json` 保持可移植默认值，机器相关路径写入未跟踪的 `config.local.json`。
+
+### Changed
+
+- Anki 牌组统一为 `Prism::Vocab` / `Prism::Phrases` / `Prism::Listening`；初始化牌组时自动把旧 `PaperToTalk::*` 牌组的卡片迁入并删除空壳。
+- README 重写为面向使用者的上手文档：痛点、一键开始、每个工作区的用法、FAQ。
+- 窗口初始尺寸按屏幕逻辑分辨率计算并居中，小屏不再超出可用区域。
+
+### Fixed
+
+- 全局图标样式选择器误伤环图与图表，导致 Overview 环图和 Speak 波形/音高图显示不全。
+- Library 左栏在较矮窗口下被裁切；长标题、摘要、路径与提示条溢出；Analyze 差异表按字母断行。
+- 脚本 YAML front matter 被当成朗读与对齐内容，导致 WER 虚高（同一录音 16.2% → **9.8%**，内容词 WER 25.6% → **15.7%**）。
+- 首次启动时 `Prism.bat` 仅提示安装而未实际执行。
+
 ## [0.2.0] - 2026-10-30
 
 ### Added
@@ -17,7 +40,7 @@
 - **Library**：只读读取 Zotero 快照（`_DB_LOCK` 原子替换），论文列表、摘要、附件、标注、打开 PDF / 定位 Zotero、一键生成讲述稿。
 - **Speak**：Kokoro TTS 生成示范音频（af_heart，CPU）、YouGlish 语境链接、录音上传 → faster-whisper 转写 → Praat 波形/音高/停顿 → WER、内容词 WER、差异表、练习建议；报告与音频留存本地。
 - **Write**：句型库检索、LTeX+ / Vale 检查入口、段落改写工作区。
-- **Vocab**：AnkiConnect 状态、牌组初始化、Zotero 标注导出为 `PaperToTalk::*` 卡片、到期数提醒。
+- **Vocab**：AnkiConnect 状态、牌组初始化、Zotero 标注导出为 `Prism::*` 卡片、到期数提醒。
 - **E 盘套件**：`E:\LumenSuite\{Prism,tools,models,cache,data}`；`HF_HOME` / `HF_ENDPOINT` / `UV_CACHE_DIR` / `UV_PYTHON_INSTALL_DIR` 等全部指向 E 盘；HuggingFace 走 `hf-mirror.com` 并禁用 Xet。
 - **本地模型**：Kokoro 权重、faster-whisper `base.en`（145 MB）落在 `E:\LumenSuite\models`，离线加载。
 
@@ -38,7 +61,7 @@
 
 ### Added
 
-- **词汇线**：`anki_setup.py` 创建 `PaperToTalk::*` 牌组与 `AE Vocab` / `AE Phrase` / `AE Subs` 笔记类型，导入 40 条句型种子卡；`zotero_to_anki.py` 以只读快照导出 Zotero 标注与翻译；`remind.ps1` 提供到期提醒；`install_reminder.ps1` 一键注册/删除每日计划任务；Yomitan 配置说明。
+- **词汇线**：`anki_setup.py` 创建 `Prism::*` 牌组与 `AE Vocab` / `AE Phrase` / `AE Subs` 笔记类型，导入 40 条句型种子卡；`zotero_to_anki.py` 以只读快照导出 Zotero 标注与翻译；`remind.ps1` 提供到期提醒；`install_reminder.ps1` 一键注册/删除每日计划任务；Yomitan 配置说明。
 - **写作线**：三层检查（Phrasebank / LTeX+ / Vale）；40 条功能化句型；4 周训练计划；段落实验室模板；6 条保守 Vale 规则与领域词表。
 - **口语线**：`speak.py` 的 `tts` / `links` / `check`；术语读法表；YouGlish 清单生成；Whisper 对齐与 Praat 指标；独立 Praat 脚本；Buzz + Praat 流程；mpvacious 制卡说明；3 分钟示例稿。
 - **工程**：`scripts/validate.py` 仓库自检；标准库 `unittest` 测试；GitHub Actions（Ubuntu + Windows，Python 3.12）；Dependabot；issue / PR 模板；README banner 与 1280×640 社交预览图。
@@ -46,7 +69,7 @@
 
 ### Changed
 
-- 牌组前缀从 `Academic English::*` 改为 `PaperToTalk::*`。未开始使用 Anki 的用户不受影响；已有旧牌组的用户改 `config.json` 后需手动迁移卡片。
+- 牌组前缀从 `Academic English::*` 改为 `Prism::*`。未开始使用 Anki 的用户不受影响；已有旧牌组的用户改 `config.json` 后需手动迁移卡片。
 - `config.json` 的 Zotero 路径改为 `~/Zotero/zotero.sqlite`，支持 `~` 与环境变量。
 
 ### Known limitations
