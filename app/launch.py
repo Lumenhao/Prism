@@ -90,6 +90,16 @@ def open_browser(url: str) -> None:
 
 
 def main() -> None:
+    if os.environ.get("PRISM_HIDE_CONSOLE") == "1" and os.name == "nt":
+        try:
+            import ctypes
+
+            hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+            if hwnd:
+                ctypes.windll.user32.ShowWindow(hwnd, 0)
+        except Exception:
+            pass
+
     parser = argparse.ArgumentParser(description="Prism desktop launcher")
     parser.add_argument("--port", type=int, default=int(os.environ.get("PRISM_PORT", "7317")))
     parser.add_argument("--browser", action="store_true", help="open in Edge app window")
