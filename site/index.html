@@ -47,7 +47,8 @@
       </ul>
     </div>
     <figure class="hero-shot">
-      <img src="assets/overview.png" alt="Prism 工作台 Overview 界面" width="1440" height="900">
+      <img class="shot-dark" src="assets/overview.webp" alt="Prism 工作台 Overview 界面（深色主题）" width="1440" height="900">
+      <img class="shot-light" src="assets/overview-light.webp" alt="Prism 工作台 Overview 界面（浅色主题）" width="1440" height="900" loading="lazy">
       <figcaption>Overview：今天练什么，一眼看到</figcaption>
     </figure>
   </section>
@@ -78,34 +79,41 @@
     <h2>六个工作区，各管一件事</h2>
     <div class="tour">
       <article class="shot-card">
-        <img src="assets/library.png" alt="Library 工作区" loading="lazy">
+        <img class="shot-dark" src="assets/library.webp" alt="Library 工作区" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/library-light.webp" alt="Library 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Library · 读</h3><p>搜索 Zotero 文库，看摘要、标签与标注；打开 PDF、定位到 Zotero；点 <b>生成讲述稿</b> 得到一份带术语标记的稿子。</p></div>
       </article>
       <article class="shot-card">
-        <img src="assets/speak.png" alt="Speak 工作区" loading="lazy">
+        <img class="shot-dark" src="assets/speak.webp" alt="Speak 工作区" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/speak-light.webp" alt="Speak 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Speak · 说</h3><p>Kokoro 合成示范音（CPU 可跑），术语自动套用读法表；Terms 面板给出 YouGlish 语境链接；上传录音进入复盘。</p></div>
       </article>
       <article class="shot-card">
-        <img src="assets/report.png" alt="录音复盘报告" loading="lazy">
+        <img class="shot-dark" src="assets/report.webp" alt="录音复盘报告" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/report-light.webp" alt="录音复盘报告（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Analyze · 比较</h3><p>Whisper 转写 → 与稿子逐词对齐 → Praat 测音高、强度与停顿，给出内容词 WER、波形与最值得改的 3 个动作。</p></div>
       </article>
       <article class="shot-card">
-        <img src="assets/write.png" alt="Write 工作区" loading="lazy">
+        <img class="shot-dark" src="assets/write.webp" alt="Write 工作区" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/write-light.webp" alt="Write 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Write · 写</h3><p>按 Introduction / Methods / Results / Discussion 检索句型，插进段落实验室，再用 Vale 与内置规则给出可执行的修改项。</p></div>
       </article>
       <article class="shot-card">
-        <img src="assets/vocab.png" alt="Vocab 工作区" loading="lazy">
+        <img class="shot-dark" src="assets/vocab.webp" alt="Vocab 工作区" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/vocab-light.webp" alt="Vocab 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Vocab · 复习</h3><p>预览 Zotero 里带翻译的标注，一键写入 Anki 的 <code>Prism::*</code> 牌组；首页显示今日到期数，第二天照常复习。</p></div>
       </article>
       <article class="shot-card">
-        <img src="assets/settings.png" alt="Settings 工作区" loading="lazy">
+        <img class="shot-dark" src="assets/settings.webp" alt="Settings 工作区" loading="lazy" width="1440" height="900">
+        <img class="shot-light" src="assets/settings-light.webp" alt="Settings 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Settings · 检查</h3><p>改端口、Anki 与 Zotero 路径、音色与模型；每个外部工具显示真实路径与状态；深色 / 浅色主题在这里切换。</p></div>
       </article>
     </div>
     <p class="theme-note">两种主题，随时切换 —— 深色适合夜里，浅色适合白天和投影。</p>
-    <figure class="hero-shot alt">
-      <img src="assets/overview-light.png" alt="Prism 浅色主题" loading="lazy" width="1440" height="900">
-    </figure>
+    <div class="duo">
+      <figure><img src="assets/overview.webp" alt="深色主题下的工作台" loading="lazy" width="1440" height="900"><figcaption>深色</figcaption></figure>
+      <figure><img src="assets/overview-light.webp" alt="浅色主题下的工作台" loading="lazy" width="1440" height="900"><figcaption>浅色</figcaption></figure>
+    </div>
   </section>
 
   <section id="start" class="block narrow">
@@ -147,7 +155,7 @@
 </main>
 
 <footer>
-  <p><b>Prism</b> 是 <a href="https://github.com/Lumenhao/Lumen">Lumen · 星皓书房</a> 系列的第二件作品：Lumen 收光，Prism 把一束光拆成光谱。</p>
+  <p><b>Prism</b> · 本地优先的学术英语工作台</p>
   <p class="muted">© 2026 Haoming Xing · <a href="https://github.com/Lumenhao/Prism">Source</a> · <a href="https://github.com/Lumenhao/Prism/blob/main/PRIVACY.md">Privacy</a> · <a href="https://github.com/Lumenhao/Prism/blob/main/CHANGELOG.md">Changelog</a></p>
 </footer>
 

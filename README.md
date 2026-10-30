@@ -4,65 +4,69 @@
 
 <h1 align="center">Prism</h1>
 
-<p align="center"><strong>论文读完了，却讲不出来？把一篇论文拆成读、写、说三种练习，并留下可以比较的记录。</strong></p>
+<p align="center"><strong>You finished the paper. Can you say it out loud?</strong><br>One paper, split into reading, writing and speaking — with records you can compare.</p>
 
 <p align="center">
-  <a href="https://lumenhao.github.io/Prism/"><strong>项目主页</strong></a> ·
-  <a href="#一键开始">一键开始</a> ·
-  <a href="#六个工作区">六个工作区</a> ·
-  <a href="#常见问题">常见问题</a>
+  <b>English</b> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-<p align="center"><sub>Windows 10/11 · Python 3.12 · 全本地 · MIT</sub></p>
+<p align="center">
+  <a href="https://lumenhao.github.io/Prism/"><strong>Website</strong></a> ·
+  <a href="#one-click-start">One-click start</a> ·
+  <a href="#six-workspaces">Six workspaces</a> ·
+  <a href="#faq">FAQ</a>
+</p>
 
-**Prism** is a local-first desktop workbench for academic English. Pick a paper from Zotero, turn it into a three-minute talk, record yourself, review the vocabulary in Anki — everything stays on your machine.
+<p align="center"><sub>Windows 10/11 · Python 3.12 · nothing leaves your machine · MIT</sub></p>
+
+**Prism** is a local-first desktop workbench for academic English. Pick a paper out of Zotero, turn it into a three-minute talk, hear a reference reading, record yourself, get a comparable report, and push the annotations into Anki — from one window.
 
 ---
 
-## 你可能正卡在这三个地方
+## Where you are probably stuck
 
-**读得懂，说不出。** 论文里的好句子读完就散了，轮到自己讲，只剩下 "This paper is about…"。
+**You read it, but you cannot say it.** Good sentences evaporate on the read-through. When it is your turn to speak, all that survives is "This paper is about…".
 
-**改得动，不像自己。** 模板、语法检查、润色工具各管一段，复制粘贴来回切换，最后写出来的段落谁也不像。
+**You can edit it, but it stops sounding like you.** A template here, a grammar checker there, a polishing tool somewhere else — copy, paste, repeat, until the paragraph belongs to nobody.
 
-**背了词，用不上。** 标注留在 Zotero，复习在 Anki，口语又是另一个软件；每天很忙，但看不出进步在哪。
+**You learn the words, but never use them.** Annotations stay in Zotero, reviews happen in Anki, speaking practice lives in a third app. Busy every day, no visible progress.
 
-Prism 不打算再给你一个功能清单。它把 **同一篇论文** 放进一条闭环：在 Library 里读，在 Write 里拆句型，在 Speak 里讲出来，在 Vocab 里复习；每一次练习都留下记录。打开一个窗口，做一件事。
+Prism is not another feature list. It puts **one and the same paper** through a loop: read it in Library, take it apart in Write, say it in Speak, review it in Vocab. Every session leaves a record you can compare against the next one.
 
-## 一键开始
+## One-click start
 
-不需要先配 Python，也不需要读一长串安装说明。
+You do not need Python installed, and you do not need to read a long setup guide.
 
-1. **拿到代码**：`git clone https://github.com/Lumenhao/Prism.git`，或在 GitHub 页面点 **Code → Download ZIP** 后解压。
-2. **双击 `Prism.bat`**。
-   第一次启动会自动创建 `.venv`、安装依赖，并把模型目录指向 `E:\LumenSuite`。依赖约 1.5 GB，通常 5–15 分钟；装完会直接打开工作台。
-3. **（可选）接上你自己的资料**：
-   - **Zotero**：装好 Zotero 后，在 Prism 的 Settings 里填 `zotero.sqlite` 路径。默认会找 `~/Zotero/zotero.sqlite`。
-   - **Anki**：装好 Anki 与 [AnkiConnect](https://ankiweb.net/shared/info/2055492159)（插件代码 `2055492159`），启动 Anki，然后在 **Vocab → 初始化牌组**。
+1. **Get the code**: `git clone https://github.com/Lumenhao/Prism.git`, or use **Code → Download ZIP** on GitHub and unzip.
+2. **Double-click `Prism.bat`.**
+   On the first run it creates `.venv`, installs the dependencies and points the model cache at `E:\LumenSuite`. About 1.5 GB, typically 5–15 minutes. When it finishes, the workbench opens by itself.
+3. **(Optional) plug in your own material**:
+   - **Zotero**: once Zotero is installed, set the path to `zotero.sqlite` in Prism's Settings. It looks for `~/Zotero/zotero.sqlite` by default.
+   - **Anki**: install Anki plus [AnkiConnect](https://ankiweb.net/shared/info/2055492159) (add-on code `2055492159`), start Anki, then click **Vocab → 初始化牌组** (initialise decks).
 
-第一次合成语音或分析录音时会下载 Kokoro（约 330 MB）和 Whisper `base.en`（约 150 MB）。下载走 `hf-mirror.com`，全部落在 `E:\LumenSuite\models`，之后离线可用。
+The first synthesis or analysis downloads Kokoro (~330 MB) and Whisper `base.en` (~150 MB) through `hf-mirror.com` into `E:\LumenSuite\models`. After that it runs offline.
 
-> 系统要求：Windows 10/11 x64；首次安装需要联网；建议至少 6 GB 空闲磁盘。没有 E 盘时会自动改用 `%LOCALAPPDATA%\LumenSuite`，也可以用环境变量 `LUMEN_SUITE` 指定位置。
+> Requirements: Windows 10/11 x64, network access for the first install, ~6 GB free disk. Without an E: drive it falls back to `%LOCALAPPDATA%\LumenSuite`; you can also set the `LUMEN_SUITE` environment variable.
 
-### 安装到哪里
+### Where things get installed
 
 ```text
 E:\LumenSuite
-├─ Prism\      代码、.venv、data（录音 / 报告 / 快照）
-├─ models\     Kokoro、Whisper、HuggingFace / Torch 缓存
-├─ tools\      Python 3.12、Anki、Vale、FFmpeg（如已安装）
-└─ cache\      uv / pip / 下载缓存
+├─ Prism\      code, .venv, data (recordings / reports / snapshots)
+├─ models\     Kokoro, Whisper, HuggingFace / Torch caches
+├─ tools\      Python 3.12, Anki, Vale, FFmpeg (when present)
+└─ cache\      uv / pip / download cache
 ```
 
-Prism 自己的数据都在 `data/`，并被 `.gitignore` 排除；机器相关的路径写在 `config.local.json`，不会提交。
+Prism's own output lives in `data/` and is git-ignored; machine-specific paths go into `config.local.json`, which is never committed.
 
-## 第一次使用的 10 分钟
+## The first ten minutes
 
-1. **Overview**：先看本周练习、Zotero 规模、Anki 到期数。点 **Start session** 直接进入口语。
-2. **Library**：搜索并打开一篇你最近要讲的论文，点 **生成讲述稿**。
-3. **Speak**：选 `af_heart` 音色，生成示范音；跟读后上传录音，点 **Analyze** 拿到 WER、停顿和音高图。
-4. **Write**：按论证功能（Introduction / Methods / Results / Discussion）挑一句 Phrasebank，插入段落实验室，再点 **检查段落**。
-5. **Vocab**：把 Zotero 里带翻译的标注一键导出成 Anki 卡片，第二天在 Anki 里复习。
+1. **Overview**: see this week's practice, the size of your Zotero library and the Anki queue. Hit **Start session** to jump straight into speaking.
+2. **Library**: search and open a paper you have to present soon, click **生成讲述稿** (generate talk script).
+3. **Speak**: pick the `af_heart` voice, generate the reference audio, read along, upload your recording and click **Analyze** for WER, pauses, waveform and pitch.
+4. **Write**: browse Phrasebank patterns by rhetorical function (Introduction / Methods / Results / Discussion), insert one into the paragraph lab, click **检查段落** (check paragraph).
+5. **Vocab**: export Zotero annotations that carry a translation into Anki cards in one click, then review them tomorrow.
 
 <table>
 <tr>
@@ -79,89 +83,89 @@ Prism 自己的数据都在 `data/`，并被 `.gitignore` 排除；机器相关�
 
 <p align="center"><img src="assets/screenshots/overview-light.png" alt="Light theme" width="88%"></p>
 
-## 六个工作区
+## Six workspaces
 
-| 工作区 | 它解决什么 | 你怎么用 |
+| Workspace | What it solves | How you use it |
 |---|---|---|
-| **Overview** | 今天该练什么，一眼看到 | 看连续天数、到期卡片、最近一次口语报告；点 **Start session** 开始 |
-| **Library** | 论文散落在 Zotero，找不到也拆不开 | 搜索标题 / 作者 / 期刊；看摘要、标签、标注；打开 PDF、定位 Zotero；一键生成 3 分钟讲述稿 |
-| **Speak** | 会读不会说，也没人指出问题 | **Listen** 生成示范音；**Terms** 查 17 个术语的 YouGlish 语境；**Analyze** 上传录音，得到转写、WER、停顿、波形与音高 |
-| **Write** | 句型记不住，段落写完心里没底 | 按论证功能检索 40 条 Phrasebank；点句子插入段落实验室；Vale + 内置规则给出可执行的修改 |
-| **Vocab** | 标注和复习两张皮 | 预览 Zotero 标注 → 导出到 Anki；看三个牌组的到期数；启动 Anki 或初始化牌组 |
-| **Settings** | 路径、端口、模型各在哪里 | 改 Anki 地址、Anki 路径、Zotero 库、Kokoro 音色、Whisper 模型；查看工具链的真实状态；切换深色 / 浅色 |
+| **Overview** | What should I practise today | Day streak, due cards, last speaking report; **Start session** opens the loop |
+| **Library** | Papers scattered in Zotero, unreadable and unsplittable | Search title / author / venue; read abstract, tags, annotations; open the PDF, jump to Zotero; generate a 3-minute talk script |
+| **Speak** | You can read it, but nobody tells you how you sound | **Listen** builds the reference audio; **Terms** gives YouGlish context for 17 terms; **Analyze** takes your recording and returns transcript, WER, pauses, waveform and pitch |
+| **Write** | You forget the sentences you meant to reuse | Search 40 Phrasebank patterns by function, click to insert into the paragraph lab, get actionable edits from Vale plus built-in rules |
+| **Vocab** | Annotations and reviews live apart | Preview Zotero annotations → export to Anki; see due counts for the three decks; launch Anki or initialise decks |
+| **Settings** | Paths, ports, models — where are they | Change the Anki URL, Anki path, Zotero library, Kokoro voice, Whisper model; check the real status of each tool; switch dark / light |
 
-所有耗时任务（TTS、录音分析、Anki 导入）都在后台执行，顶部有进度，窗口不会卡住；切换页面也不会丢失任务。
+Long jobs (TTS, recording analysis, Anki import) run in the background with progress at the top; the window stays responsive and switching pages does not cancel them.
 
-## 它和“把十个工具拼在一起”的区别
+## What makes this more than a bundle of tools
 
-- **一条主线**：Read → Write → Speak → Review。每个页面只呈现当前这一步需要的输入和结果，不给你一片工具箱自己找。
-- **本地优先**：Zotero 只读快照；Anki 走本机 `127.0.0.1:8765`；录音、转写、报告不上传。
-- **可比较**：同一篇稿子可以反复录，报告保留 WER、停顿、音高；练习记录进入周视图和连续天数。
-- **可退出**：所有能力都有命令行入口（见下文），工作台只是把它们串起来，不是黑箱。
+- **One thread**: Read → Write → Speak → Review. Each page shows only the input and result for the current step instead of dumping a toolbox on you.
+- **Local-first**: Zotero is read through a snapshot; Anki talks to `127.0.0.1:8765`; recordings, transcripts and reports are never uploaded.
+- **Comparable**: record the same script repeatedly; reports keep WER, pauses and pitch, and sessions feed the week view and the streak.
+- **Exitable**: every capability also has a command-line entry (below). The workbench strings them together; it is not a black box.
 
-## 常见问题
+## FAQ
 
-**Anki 一直显示“未连接”，是牌组名的问题吗？**  
-不是。连接只取决于三件事：Anki 正在运行、AnkiConnect 插件已安装并启用、端口是 `8765`。牌组统一叫 `Prism::Vocab` / `Prism::Phrases` / `Prism::Listening`，只是品牌命名；旧的 `PaperToTalk::*` 牌组会在 **Vocab → 初始化牌组** 时自动迁移卡片并清理空壳。
+**Anki keeps saying "not connected" — is it the deck name?**
+No. The connection depends on exactly three things: Anki is running, the AnkiConnect add-on is installed and enabled, and the port is `8765`. Decks are named `Prism::Vocab` / `Prism::Phrases` / `Prism::Listening` for branding only; old `PaperToTalk::*` decks have their cards migrated and the empty shells removed when you click **Vocab → 初始化牌组**.
 
-**为什么第一次启动很慢？**  
-它在安装 CPU 版 PyTorch、Kokoro、faster-whisper 等依赖，并把缓存放在 E 盘。之后再启动只需几秒。
+**Why is the first start slow?**
+It installs CPU builds of PyTorch, Kokoro and faster-whisper and puts the caches on E:. Later starts take a few seconds.
 
-**模型和录音会上传吗？**  
-不会。模型下载是唯一的联网步骤；练习数据只写本地 `data/`。
+**Do my papers or recordings get uploaded?**
+No. Downloading models is the only network step; practice data is written to the local `data/` folder.
 
-**可以不用 Zotero 或 Anki 吗？**  
-可以。Speak 和 Write 不依赖它们；Library 需要 Zotero 数据库；Vocab 需要 Anki。缺哪个，对应页面会提示，其他功能不受影响。
+**Can I skip Zotero or Anki?**
+Yes. Speak and Write do not need them; Library needs the Zotero database and Vocab needs Anki. Whatever is missing shows a hint on that page and the rest keeps working.
 
-**支持 macOS / Linux 吗？**  
-后端是 FastAPI + 静态前端，理论上可以运行；但目前只在 Windows 上验证过启动脚本与桌面窗口。macOS / Linux 可以手动 `uv pip install -r requirements.txt` 后运行 `python -m uvicorn app.server:APP --port 7317`，再用浏览器打开。
+**What about macOS / Linux?**
+The backend is FastAPI plus a static frontend and should run, but only the Windows launcher and desktop window are verified. On other systems: `uv pip install -r requirements.txt`, then `python -m uvicorn app.server:APP --port 7317` and open it in a browser.
 
-**怎么彻底删除？**  
-删除仓库目录，再删除 `E:\LumenSuite`（或你设置的 `LUMEN_SUITE`）。
+**How do I remove everything?**
+Delete the repository folder, then `E:\LumenSuite` (or whatever `LUMEN_SUITE` points at). Cards you exported live in Anki and are deleted there.
 
-## 本机验证过的结果
+## Verified on a real machine
 
-- **341 篇** Zotero 文献的只读索引，中文文件名可打开；
-- **40 条** Phrasebank 种子卡写入 `Prism::Phrases`；
-- Kokoro `af_heart` 合成 448 词 / **177.75 s** 示范音；
-- Whisper `base.en` + Praat 分析真实录音：WER **9.8%**、内容词 WER **15.7%**，波形 320 点、音高 260 点、27 条差异；
-- YouGlish 17 条术语链接；Vale 3.25.1 与 FFmpeg 7.1 可执行；
-- 38 个单元测试、`scripts/validate.py` 与 `ruff` 通过。
+- Read-only index of **341** Zotero items, including Chinese file names;
+- **40** Phrasebank seed cards written into `Prism::Phrases`;
+- Kokoro `af_heart` synthesised a 448-word / **177.75 s** reference reading;
+- Whisper `base.en` + Praat on a real recording: WER **9.8%**, content-word WER **15.7%**, 320 waveform points, 260 pitch points, 27 differences;
+- 17 YouGlish term links; Vale 3.25.1 and FFmpeg 7.1 executables detected;
+- 38 unit tests, `scripts/validate.py` and `ruff` pass.
 
-尚未完成：mpvacious / Buzz 的 GUI 流程仍按 `speaking/mpvacious.md`、`speaking/buzz-and-praat.md` 手工操作；macOS / Linux 启动脚本未验证。
+Not done yet: the mpvacious / Buzz GUI flow is still manual (see `speaking/mpvacious.md`, `speaking/buzz-and-praat.md`); macOS / Linux launch scripts are unverified.
 
-## 开发与命令行
+## Development and command line
 
 ```powershell
-.\setup_env.ps1                     # 建环境（Prism.bat 会自动调用）
+.\setup_env.ps1                     # build the environment (Prism.bat calls it for you)
 python -m unittest discover -s tests
 python scripts\validate.py
 ruff check .
 ```
 
-工作台没有删掉原来的管线：
+The workbench did not replace the underlying pipelines:
 
 ```powershell
-# 口语
+# speaking
 .\.venv\Scripts\python speaking\speak.py tts speaking\samples\sample_talk.md --out speaking\samples\sample_talk.wav
 .\.venv\Scripts\python speaking\speak.py links speaking\samples\sample_talk.md --out speaking\samples\youglish.md
 .\.venv\Scripts\python speaking\speak.py check speaking\samples\take1.wav --script speaking\samples\sample_talk.md
 
-# 词汇
+# vocabulary
 .\.venv\Scripts\python vocab\anki_setup.py --check
 .\.venv\Scripts\python vocab\zotero_to_anki.py --dry-run
 
-# 写作检查
+# writing checks
 E:\LumenSuite\tools\vale\vale.exe --config=writing\.vale.ini path\to\draft.md
 ```
 
-## 隐私与许可
+## Privacy and licence
 
-- Zotero 只读；Anki 通过本机 AnkiConnect 写入；不上传文章、标注、录音或卡片。
-- 代码 MIT；文档与训练材料 CC BY-NC 4.0；第三方归属见 [NOTICE.md](NOTICE.md) 与 [PRIVACY.md](PRIVACY.md)。
-- 示例稿是 2004 年石墨烯论文的口语改写，不含原文段落或图片。
-- `data/`、`config.local.json`、模型与录音均在 `.gitignore` 中。
+- Zotero is read-only; Anki is written through local AnkiConnect; papers, annotations, recordings and cards are never uploaded.
+- Code MIT; documentation and training material CC BY-NC 4.0; third-party attribution in [NOTICE.md](NOTICE.md) and [PRIVACY.md](PRIVACY.md).
+- The sample script is a spoken adaptation of the 2004 graphene paper and contains no paragraphs or figures from the original.
+- `data/`, `config.local.json`, models and recordings are all listed in `.gitignore`.
 
-## 致谢
+## Credits
 
-界面气质参考 [odysseus](https://github.com/odysseus-dev/odysseus) 的深色工作台；语音、对齐、语法与卡片能力分别建立在 Kokoro、faster-whisper、Praat、Vale、AnkiConnect 之上。Prism 是 **Lumen** 系列的第二件作品：Lumen 收书，Prism 把一束光拆成光谱。
+The dark workbench feel borrows from [odysseus](https://github.com/odysseus-dev/odysseus). Speech, alignment, grammar and card features are built on Kokoro, faster-whisper, Praat, Vale and AnkiConnect.

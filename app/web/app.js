@@ -1037,7 +1037,7 @@ function renderSettings() {
         <h3>About Prism</h3>
         <p class="desc">本地优先的论文英语工作台。Lumen 收书，Prism 拆光：读、写、说三条线共用一个界面。</p>
         <div class="meta-grid" style="border-top:0">
-          <div><div class="k">Version</div><div class="v">0.3.0 · beta</div></div>
+          <div><div class="k">Version</div><div class="v">0.3.1 · beta</div></div>
           <div><div class="k">Data</div><div class="v">全部本地</div></div>
           <div><div class="k">Code</div><div class="v">MIT</div></div>
           <div><div class="k">Docs</div><div class="v">CC BY-NC 4.0</div></div>

@@ -9,6 +9,27 @@
 - macOS / Linux 的 shell 等价脚本；
 - 可选的语音依赖 CI job。
 
+## [0.3.1] - 2026-10-30
+
+### Added
+
+- **README 中英双语**：`README.md`（英文默认）与 `README.zh-CN.md`（简体中文）互链，两版结构一致；`scripts/validate.py` 把中文版列入必需文件。
+- **主题化窗口图标**：`scripts/make_icons.py` 按深浅两套配色重绘 `prism-dark.ico` / `prism-light.ico`，标题栏与任务栏图标随主题一起换。
+
+### Changed
+
+- 仓库描述只保留一句：`A local-first workbench for academic English. 学术英语工作台，一切尽在本机。`
+- 项目主页不再叙述「系列的第几件作品」，只介绍 Prism 本身。
+- 主页截图改为深浅成对（`assets/*.webp` 与 `*-light.webp`），页面主题与截图主题始终一致；主题对照区显式标注「深色 / 浅色」。
+- 版本号统一到 0.3.1（`pyproject.toml`、FastAPI、Settings 页）。
+
+### Fixed
+
+- 浅色主题下原生标题栏仍是白色、图标仍是深色版：改为按进程 ID 认领自己的窗口（`Prism.bat` 的控制台窗口同名，会被误填色），并接管 pywebview 的 `update_title_bar_theme`、关闭 DWM backdrop，标题栏颜色真正跟随主题。
+- 主页浅色模式下按钮文字、背景光晕与阴影仍沿用深色硬编码值；新增 `--on-accent` / `--accent-soft` / `--glow-*` / `--shadow` 等按主题取值的令牌。
+- `scripts/shots.py` 深浅两轮写到同一文件名，浅色把深色覆盖；现在浅色输出带 `-light` 后缀。
+- `webview.start()` 默认隐私模式导致主题选择跨启动丢失；改为持久化到 `E:\LumenSuite\data\webview`。
+
 ## [0.3.0] - 2026-10-30
 
 ### Added

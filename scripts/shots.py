@@ -12,27 +12,34 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "data" / "shots"
+RAW = ROOT / "data" / "shots"
+DOCS = ROOT / "assets" / "screenshots"
+SITE = ROOT / "site" / "assets"
 EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 BASE = "http://127.0.0.1:7317/"
 
+ROUTES = [
+    ("overview", "overview"),
+    ("library", "library"),
+    ("speak", "speak"),
+    ("report", "speak/analyze"),
+    ("write", "write"),
+    ("vocab", "vocab"),
+    ("settings", "settings"),
+]
+# The landing page swaps screenshots with its own theme, so every view is shot twice.
+# The dark pass keeps the bare file name so the existing docs links stay valid.
 SHOTS = [
-    ("overview", "overview", "dark"),
-    ("overview-light", "overview", "light"),
-    ("library", "library", "dark"),
-    ("speak", "speak", "dark"),
-    ("report", "speak/analyze", "dark"),
-    ("write", "write", "dark"),
-    ("vocab", "vocab", "dark"),
-    ("settings", "settings", "dark"),
-    ("library-light", "library", "light"),
+    (f"{name}-light" if theme == "light" else name, route, theme)
+    for name, route in ROUTES
+    for theme in ("dark", "light")
 ]
 
 WIDTH, HEIGHT, SCALE = 1440, 900, 2
 
 
 def capture(name: str, route: str, theme: str, timeout: int = 90) -> Path:
-    raw = OUT / f"raw-{name}.png"
+    raw = RAW / f"raw-{name}.png"
     profile = Path(tempfile.mkdtemp(prefix="prism-shot-"))
     url = f"{BASE}?theme={theme}#/{route}"
     cmd = [
@@ -60,8 +67,11 @@ def capture(name: str, route: str, theme: str, timeout: int = 90) -> Path:
         target = (WIDTH, HEIGHT)
         if im.size != target:
             im = im.resize(target, Image.LANCZOS)
-        final = OUT / f"{name}.png"
+        final = DOCS / f"{name}.png"
         im.save(final, optimize=True)
+        im.save(SITE / f"{name}.webp", quality=82, method=6)
+        if name == "overview":  # social preview wants a PNG
+            im.save(SITE / "overview.png", optimize=True)
         return final
     finally:
         shutil.rmtree(profile, ignore_errors=True)
@@ -69,7 +79,8 @@ def capture(name: str, route: str, theme: str, timeout: int = 90) -> Path:
 
 
 def main() -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
+    for folder in (RAW, DOCS, SITE):
+        folder.mkdir(parents=True, exist_ok=True)
     only = set(sys.argv[1:])
     for name, route, theme in SHOTS:
         if only and name not in only:

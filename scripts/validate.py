@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     "README.md",
+    "README.zh-CN.md",
     "LICENSE",
     "LICENSE-CONTENT.md",
     "NOTICE.md",

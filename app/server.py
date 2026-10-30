@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from .core import AUDIO, DATA, ROOT, jobs, load_config, save_config
 from .services import anki, dashboard, library, speech, tools, writing
 
-APP = FastAPI(title="Prism", version="0.2.0")
+APP = FastAPI(title="Prism", version="0.3.1")
 WEB = Path(__file__).resolve().parent / "web"
 SCRIPTS = DATA / "scripts"
 SCRIPTS.mkdir(parents=True, exist_ok=True)

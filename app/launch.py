@@ -13,13 +13,20 @@ APP_DIR = Path(__file__).resolve().parent
 ROOT = APP_DIR.parent
 sys.path.insert(0, str(ROOT))
 SUITE = Path(os.environ.get("LUMEN_SUITE", "E:/LumenSuite"))
-ICON = ROOT / "assets" / "prism.ico"
+ICONS = {"dark": ROOT / "assets" / "prism-dark.ico", "light": ROOT / "assets" / "prism-light.ico"}
 
-# Windows caption colors are COLORREF values (0x00BBGGRR), not RGB.
-CAPTION_COLORS = {
-    "dark": {"caption": 0x0016110F, "text": 0x00DDE5E9, "border": 0x00352B26},
-    "light": {"caption": 0x00F0F5F7, "text": 0x002D2623, "border": 0x00CBD7DD},
+# Keep these in sync with the CSS custom properties in app/web/styles.css.
+CAPTION = {
+    "dark": {"bg": "#0f1116", "text": "#e9e5dd", "border": "#262b35", "dark": True},
+    "light": {"bg": "#f5f2ec", "text": "#22262d", "border": "#d7d1c5", "dark": False},
 }
+
+DWMWA_USE_IMMERSIVE_DARK_MODE = 20
+DWMWA_BORDER_COLOR = 34
+DWMWA_CAPTION_COLOR = 35
+DWMWA_TEXT_COLOR = 36
+DWMWA_SYSTEMBACKDROP_TYPE = 38
+DWMSBT_NONE = 1
 
 if sys.stdout is None or sys.stderr is None:
     log_dir = ROOT / "data"
@@ -54,49 +61,77 @@ def api_ready(port: int) -> bool:
         return False
 
 
-def find_window(title: str) -> int | None:
-    """Locate our top-level window without touching WinForms from another thread."""
+def cref(value: str) -> int:
+    """Windows caption colors are COLORREF (0x00BBGGRR), not the palette's RGB order."""
+    r, g, b = int(value[1:3], 16), int(value[3:5], 16), int(value[5:7], 16)
+    return (b << 16) | (g << 8) | r
+
+
+def find_own_window() -> int | None:
+    """Our own window, by process id: Prism.bat titles its console 'Prism' too."""
     import ctypes
+    from ctypes import wintypes
 
     user32 = ctypes.windll.user32
+    me = os.getpid()
     found: list[int] = []
 
-    @ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+    @ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
     def callback(hwnd, _):
         if not user32.IsWindowVisible(hwnd):
+            return True
+        pid = wintypes.DWORD()
+        user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+        if pid.value != me:
             return True
         length = user32.GetWindowTextLengthW(hwnd)
         if length <= 0:
             return True
         buffer = ctypes.create_unicode_buffer(length + 1)
         user32.GetWindowTextW(hwnd, buffer, length + 1)
-        if buffer.value == title:
+        if buffer.value == "Prism":
             found.append(int(hwnd))
             return False
         return True
 
-    user32.EnumWindows(callback, None)
+    user32.EnumWindows(callback, 0)
     return found[0] if found else None
+
+
+def set_icon(hwnd: int, theme: str) -> None:
+    import ctypes
+    from ctypes import wintypes
+
+    path = ICONS.get(theme, ICONS["dark"])
+    if not path.exists():
+        return
+    user32 = ctypes.windll.user32
+    load = user32.LoadImageW
+    load.restype = ctypes.c_void_p
+    for kind in (1, 0):  # ICON_BIG (taskbar), ICON_SMALL (caption)
+        handle = load(None, str(path), 1, 0, 0, 0x00000010 | 0x00000040)
+        if handle:
+            user32.SendMessageW(wintypes.HWND(hwnd), 0x0080, kind, ctypes.c_void_p(handle))
 
 
 def apply_caption(hwnd: int, theme: str) -> None:
     """Paint the native caption to match the workbench instead of the OS theme."""
     import ctypes
+    from ctypes import wintypes
 
-    colors = CAPTION_COLORS.get(theme, CAPTION_COLORS["dark"])
-    dark = 1 if theme != "light" else 0
+    colors = CAPTION.get(theme, CAPTION["dark"])
+    handle = wintypes.HWND(hwnd)
     dwm = ctypes.windll.dwmapi
-    for attribute, value in ((20, dark), (35, colors["caption"]), (36, colors["text"]), (34, colors["border"])):
-        dwm.DwmSetWindowAttribute(hwnd, attribute, ctypes.byref(ctypes.c_int(value)), ctypes.sizeof(ctypes.c_int))
-
-    if ICON.exists():
-        user32 = ctypes.windll.user32
-        load = user32.LoadImageW
-        load.restype = ctypes.c_void_p
-        for kind in (1, 0):  # ICON_BIG, ICON_SMALL
-            handle = load(None, str(ICON), 1, 0, 0, 0x00000010 | 0x00000040)
-            if handle:
-                user32.SendMessageW(hwnd, 0x0080, kind, ctypes.c_void_p(handle))
+    # A backdrop (Mica/Auto) repaints the caption from the desktop, so it has to go.
+    for attribute, value in (
+        (DWMWA_USE_IMMERSIVE_DARK_MODE, 1 if colors["dark"] else 0),
+        (DWMWA_SYSTEMBACKDROP_TYPE, DWMSBT_NONE),
+        (DWMWA_CAPTION_COLOR, cref(colors["bg"])),
+        (DWMWA_TEXT_COLOR, cref(colors["text"])),
+        (DWMWA_BORDER_COLOR, cref(colors["border"])),
+    ):
+        dwm.DwmSetWindowAttribute(handle, attribute, ctypes.byref(ctypes.c_int(value)), ctypes.sizeof(ctypes.c_int))
+    set_icon(hwnd, theme)
 
 
 def set_app_identity() -> None:
@@ -117,10 +152,9 @@ class ThemeBridge:
         self.theme = "dark"
         self.hwnd: int | None = None
 
-    def _attach(self, hwnd: int | None) -> None:
+    def bind(self, hwnd: int) -> None:
         self.hwnd = hwnd
-        if hwnd:
-            apply_caption(hwnd, self.theme)
+        apply_caption(hwnd, self.theme)
 
     def set_theme(self, theme: str) -> bool:
         self.theme = "light" if theme == "light" else "dark"
@@ -140,12 +174,24 @@ def screen_size() -> tuple[float, float]:
 
 
 def attach_chrome(bridge: ThemeBridge) -> None:
-    for _ in range(60):
-        hwnd = find_window("Prism")
+    """Claim the caption away from pywebview, which paints it from the OS theme."""
+    for _ in range(80):
+        try:
+            import webview
+
+            form = getattr(webview.windows[0], "native", None) if webview.windows else None
+            hwnd = int(form.Handle.ToInt64()) if form is not None else None
+        except Exception:
+            hwnd = None
+        if not hwnd:
+            hwnd = find_own_window()
         if hwnd:
-            bridge._attach(hwnd)
+            if form is not None:
+                # pywebview calls this on startup and on every OS theme change.
+                form.update_title_bar_theme = lambda: apply_caption(hwnd, bridge.theme)
+            bridge.bind(hwnd)
             return
-        time.sleep(0.25)
+        time.sleep(0.2)
 
 
 def serve(port: int) -> None:
@@ -242,7 +288,13 @@ def main() -> None:
             js_api=bridge,
         )
         threading.Thread(target=attach_chrome, args=(bridge,), daemon=True).start()
-        webview.start(icon=str(ICON) if ICON.exists() else None)
+        profile = SUITE / "data" / "webview"
+        profile.mkdir(parents=True, exist_ok=True)
+        webview.start(
+            icon=str(ICONS["dark"]) if ICONS["dark"].exists() else None,
+            private_mode=False,
+            storage_path=str(profile),
+        )
         del window
     except Exception:
         import traceback
