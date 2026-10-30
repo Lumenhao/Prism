@@ -53,7 +53,7 @@ The first synthesis or analysis downloads Kokoro (~330 MB) and Whisper `base.en`
 ```text
 E:\LumenSuite
 ├─ Prism\      code, .venv, data (recordings / reports / snapshots)
-├─ models\     Kokoro, Whisper, HuggingFace / Torch caches
+├─ models\     Kokoro, Whisper, ECDICT (browser dictionary), HF / Torch caches
 ├─ tools\      Python 3.12, Anki, Vale, FFmpeg (when present)
 └─ cache\      uv / pip / download cache
 ```
@@ -77,11 +77,26 @@ Prism's own output lives in `data/` and is git-ignored; machine-specific paths g
 <td><img src="assets/screenshots/speak.png" alt="Speak"></td>
 <td><img src="assets/screenshots/write.png" alt="Write"></td>
 </tr>
+<tr>
+<td><img src="assets/screenshots/vocab.png" alt="Vocab"></td>
+<td><img src="assets/screenshots/clip.png" alt="Selecting a word in the browser"></td>
+</tr>
 </table>
 
 <p align="center"><img src="assets/screenshots/report.png" alt="Speech analysis report" width="88%"></p>
 
 <p align="center"><img src="assets/screenshots/overview-light.png" alt="Light theme" width="88%"></p>
+
+## Clip words while you read in the browser
+
+Reading happens in the browser, not in the workbench — so the words you meet there come back on their own.
+
+1. **Vocab → 安装本地词典** downloads ECDICT (66 MB → 770,611 entries, MIT) once and indexes it on `E:\LumenSuite\models\ecdict`. After that, lookups are offline and take milliseconds.
+2. Load `extension/` as an unpacked extension (`chrome://extensions` → developer mode → **Load unpacked**; the same folder works in Edge). Details in [extension/README.md](extension/README.md).
+3. Select any English word or phrase on any page: a small card shows the phonetic transcription, Chinese glosses, exam tags (CET / TOEFL / IELTS / GRE) and inflections. **存到 Anki** stores the word, the sentence it came from and the page URL.
+4. Back in **Vocab → 划词收件箱**, tick the rows and click **勾选的写入 Anki** — cards land in `Prism::Vocab` with the context sentence and a link back to the source.
+
+If Prism is closed when you clip, the extension keeps the entry and hands it over by itself within a minute of the workbench coming back. Nothing is sent anywhere except `127.0.0.1:7317`; the extension's only host permission is that address.
 
 ## Six workspaces
 
@@ -91,7 +106,7 @@ Prism's own output lives in `data/` and is git-ignored; machine-specific paths g
 | **Library** | Papers scattered in Zotero, unreadable and unsplittable | Search title / author / venue; read abstract, tags, annotations; open the PDF, jump to Zotero; generate a 3-minute talk script |
 | **Speak** | You can read it, but nobody tells you how you sound | **Listen** builds the reference audio; **Terms** gives YouGlish context for 17 terms; **Analyze** takes your recording and returns transcript, WER, pauses, waveform and pitch |
 | **Write** | You forget the sentences you meant to reuse | Search 40 Phrasebank patterns by function, click to insert into the paragraph lab, get actionable edits from Vale plus built-in rules |
-| **Vocab** | Annotations and reviews live apart | Preview Zotero annotations → export to Anki; see due counts for the three decks; launch Anki or initialise decks |
+| **Vocab** | Annotations and reviews live apart | Browser clips and Zotero annotations both land here; tick them and export to Anki; see due counts for the three decks; launch Anki or initialise decks |
 | **Settings** | Paths, ports, models — where are they | Change the Anki URL, Anki path, Zotero library, Kokoro voice, Whisper model; check the real status of each tool; switch dark / light |
 
 Long jobs (TTS, recording analysis, Anki import) run in the background with progress at the top; the window stays responsive and switching pages does not cancel them.
@@ -117,6 +132,9 @@ No. Downloading models is the only network step; practice data is written to the
 **Can I skip Zotero or Anki?**
 Yes. Speak and Write do not need them; Library needs the Zotero database and Vocab needs Anki. Whatever is missing shows a hint on that page and the rest keeps working.
 
+**Does the clipping extension see what I read?**
+No. It reacts only to text you select yourself, sends that word plus its sentence to `127.0.0.1:7317`, and holds entries in the browser's own local storage while Prism is closed. There is no other host in its permissions, no analytics and no update server.
+
 **What about macOS / Linux?**
 The backend is FastAPI plus a static frontend and should run, but only the Windows launcher and desktop window are verified. On other systems: `uv pip install -r requirements.txt`, then `python -m uvicorn app.server:APP --port 7317` and open it in a browser.
 
@@ -129,8 +147,10 @@ Delete the repository folder, then `E:\LumenSuite` (or whatever `LUMEN_SUITE` po
 - **40** Phrasebank seed cards written into `Prism::Phrases`;
 - Kokoro `af_heart` synthesised a 448-word / **177.75 s** reference reading;
 - Whisper `base.en` + Praat on a real recording: WER **9.8%**, content-word WER **15.7%**, 320 waveform points, 260 pitch points, 27 differences;
+- Local dictionary: **770,611** ECDICT entries indexed in **11 s**, lookups answered from disk;
+- Browser clip → inbox → `Prism::Vocab` card checked end to end against a running Anki;
 - 17 YouGlish term links; Vale 3.25.1 and FFmpeg 7.1 executables detected;
-- 38 unit tests, `scripts/validate.py` and `ruff` pass.
+- 51 unit tests, `scripts/validate.py` and `ruff` pass.
 
 Not done yet: the mpvacious / Buzz GUI flow is still manual (see `speaking/mpvacious.md`, `speaking/buzz-and-praat.md`); macOS / Linux launch scripts are unverified.
 
@@ -154,6 +174,7 @@ The workbench did not replace the underlying pipelines:
 # vocabulary
 .\.venv\Scripts\python vocab\anki_setup.py --check
 .\.venv\Scripts\python vocab\zotero_to_anki.py --dry-run
+.\.venv\Scripts\python scripts\get_dict.py --check    # local dictionary for browser clipping
 
 # writing checks
 E:\LumenSuite\tools\vale\vale.exe --config=writing\.vale.ini path\to\draft.md

@@ -53,6 +53,14 @@ function esc(value) {
 function pct(value) { return `${Math.round(value * 100)}%`; }
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
+function timeAgo(ts) {
+  const seconds = Math.max(0, Date.now() / 1000 - (ts || 0));
+  if (seconds < 90) return "刚刚";
+  if (seconds < 5400) return `${Math.round(seconds / 60)} 分钟前`;
+  if (seconds < 86400) return `${Math.round(seconds / 3600)} 小时前`;
+  return `${Math.round(seconds / 86400)} 天前`;
+}
+
 const state = {
   route: "overview",
   overview: null,
@@ -268,6 +276,7 @@ function renderOverview() {
         <div class="action-list">
           <button class="action-item" data-go="speak">${icon("mic")} 跟读今天的 3 分钟稿<span>${minutes} min</span></button>
           <button class="action-item" data-go="library">${icon("library")} 从文库挑一篇论文<span>${data.library.annotated} 篇有标注</span></button>
+          ${state.clips?.pending ? `<button class="action-item" data-go="vocab">${icon("cards")} 把划词收件箱写进 Anki<span>${state.clips.pending} 条待写</span></button>` : ""}
         </div>
       </div>
     </div>
@@ -901,26 +910,67 @@ function renderWrite() {
 /* --------------------------------------------------------------- vocab */
 
 async function loadVocab() {
-  const [status, preview] = await Promise.all([
+  const [status, preview, clips] = await Promise.all([
     api("/api/anki/status"),
-    api("/api/anki/preview").catch(() => ({ notes: [], count: 0 }))
+    api("/api/anki/preview").catch(() => ({ notes: [], count: 0 })),
+    api("/api/clips?limit=100").catch(() => ({ items: [], pending: 0, total: 0, dictInstalled: false }))
   ]);
   state.anki = status;
   state.preview = preview.notes || [];
+  state.clips = clips;
   setAnkiChip(status);
+}
+
+function clipRows(clips) {
+  if (!clips.length) {
+    return `<div class="empty" style="padding:24px"><strong>收件箱还是空的</strong>装好 <span class="mono">extension/</span> 里的划词扩展，在任意网页选中英文，条目会自动落到这里。</div>`;
+  }
+  return clips.map((c) => {
+    const host = (c.url || "").replace(/^https?:\/\//, "").split("/")[0] || c.title || "本地";
+    const gloss = (c.translation || "").split("\n")[0] || "（没有释义）";
+    return `<div class="clip-row">
+      <input type="checkbox" class="clip-check" data-id="${esc(c.id)}" ${c.status === "imported" ? "" : "checked"}>
+      <span class="cw">${esc(c.word)}</span>
+      <span class="cg">${esc(gloss)}</span>
+      <a class="cs" href="${esc(c.url || "#")}" target="_blank" rel="noreferrer">${esc(host)}</a>
+      <span class="ct">${esc(timeAgo(c.ts))}</span>
+      <span class="pill ${c.status === "imported" ? "ok" : "coral"}">${c.status === "imported" ? "已写卡" : "待写"}</span>
+    </div>`;
+  }).join("");
 }
 
 function renderVocab() {
   const view = document.getElementById("view");
   const anki = state.anki || { connected: false };
   const notes = state.preview || [];
+  const inbox = state.clips || { items: [], pending: 0, total: 0, dictInstalled: false };
   view.innerHTML = `
     <div class="spectrum-line"></div>
     <div class="vocab-top">
       <div class="card stat-card"><div class="k">AnkiConnect</div><div class="v" style="color:${anki.connected ? "var(--ok)" : "var(--bad)"}">${anki.connected ? "Live" : "Offline"}</div><div class="s">${esc(anki.url || "")}</div></div>
       <div class="card stat-card"><div class="k">Due today</div><div class="v">${anki.connected ? anki.due : "—"}</div><div class="s">${anki.connected ? `${anki.new} new · ${anki.learning} learning · ${anki.review} review` : "启动 Anki 后读取"}</div></div>
       <div class="card stat-card"><div class="k">Zotero annotations</div><div class="v">${notes.length}</div><div class="s">带翻译的标注，可一键制卡</div></div>
+      <div class="card stat-card"><div class="k">浏览器划词</div><div class="v" style="color:${inbox.pending ? "var(--coral)" : "inherit"}">${inbox.pending}</div><div class="s">${inbox.total ? `共 ${inbox.total} 条 · ${inbox.imported} 条已写卡` : "网页选中即存，等 Anki 在场时写卡"}</div></div>
       <div class="card stat-card"><div class="k">Decks</div><div class="v">${anki.connected ? anki.decks.length : 3}</div><div class="s">${esc((anki.decks || ["Prism::Vocab", "Prism::Phrases", "Prism::Listening"]).join(" · "))}</div></div>
+    </div>
+
+    <div class="card panel clip-panel">
+      <div class="card-head">
+        <div><div class="card-title">划词收件箱</div><div class="card-sub">浏览器扩展存进来的词，勾选后写成 Prism::Vocab 卡片</div></div>
+        <span class="pill ${inbox.dictInstalled ? "ok" : ""}">${inbox.dictInstalled ? "本机词典已装" : "词典未装"}</span>
+      </div>
+      <div class="clip-head"><span></span><span>Word</span><span>Gloss</span><span>Source</span><span></span><span></span></div>
+      <div id="clip-list">${clipRows(inbox.items || [])}</div>
+      <div class="btn-row" style="margin-top:14px">
+        <button class="primary-btn" data-action="clip-import">${icon("download")} 勾选的写入 Anki</button>
+        <button class="ghost-btn" data-action="clip-delete">${icon("x")} 删除勾选</button>
+        <button class="ghost-btn" data-action="clip-refresh">${icon("refresh")} 刷新</button>
+        ${inbox.dictInstalled ? "" : `<button class="ghost-btn" data-action="dict-install">${icon("book")} 安装本地词典（约 66 MB）</button>`}
+      </div>
+      <div id="clip-progress"></div>
+      <p class="faint" style="font-size:10.5px;line-height:1.6;margin:12px 0 0">
+        扩展在 <span class="mono">extension/</span>，装载方法见 <span class="mono">extension/README.md</span>。浏览器只把选中的词和原句发给 <span class="mono">127.0.0.1:7317</span>；Prism 没开时先存在扩展里，恢复后自动补交。
+      </p>
     </div>
 
     <div class="vocab-grid">
@@ -1037,7 +1087,7 @@ function renderSettings() {
         <h3>About Prism</h3>
         <p class="desc">本地优先的论文英语工作台。Lumen 收书，Prism 拆光：读、写、说三条线共用一个界面。</p>
         <div class="meta-grid" style="border-top:0">
-          <div><div class="k">Version</div><div class="v">0.3.1 · beta</div></div>
+          <div><div class="k">Version</div><div class="v">0.4.0 · beta</div></div>
           <div><div class="k">Data</div><div class="v">全部本地</div></div>
           <div><div class="k">Code</div><div class="v">MIT</div></div>
           <div><div class="k">Docs</div><div class="v">CC BY-NC 4.0</div></div>
@@ -1088,11 +1138,11 @@ function renderSettings() {
 /* --------------------------------------------------------------- routing */
 
 const ROUTES = {
-  overview: { title: "Overview", sub: "你的论文英语工作台", render: renderOverview, load: async () => { state.overview = await api("/api/overview"); } },
+  overview: { title: "Overview", sub: "你的论文英语工作台", render: renderOverview, load: async () => { [state.overview, state.clips] = await Promise.all([api("/api/overview"), api("/api/clips?limit=1").catch(() => null)]); } },
   library: { title: "Library", sub: "Zotero 只读文库 · 标注即素材", render: renderLibrary, load: async () => {} },
   speak: { title: "Speak", sub: "示范音 · 跟读 · 录音复盘", render: renderSpeak, load: async () => {} },
   write: { title: "Write", sub: "句型库 · 段落实验室 · Vale 检查", render: renderWrite, load: async () => { if (!state.phrases.length) state.phrases = (await api("/api/write/phrases")).phrases; } },
-  vocab: { title: "Vocab", sub: "Zotero 标注 → Anki 复习", render: renderVocab, load: async () => { await loadVocab(); } },
+  vocab: { title: "Vocab", sub: "Zotero 标注与浏览器划词 → Anki 复习", render: renderVocab, load: async () => { await loadVocab(); } },
   settings: { title: "Settings", sub: "连接、路径与工具链", render: renderSettings, load: async () => { [state.settings, state.tools] = await Promise.all([api("/api/settings"), api("/api/tools/status")]); } }
 };
 
@@ -1180,6 +1230,57 @@ async function handleAction(action, el) {
     try {
       await api("/api/open", { method: "POST", body: JSON.stringify({ kind: el.dataset.kind }) });
     } catch (error) { toast(error.message, "bad"); }
+  } else if (action === "clip-refresh") {
+    await loadVocab(); renderVocab(); bindDynamic();
+  } else if (action === "clip-import") {
+    runClipAction("import", el);
+  } else if (action === "clip-delete") {
+    runClipAction("delete", el);
+  } else if (action === "dict-install") {
+    runDictInstall(el);
+  }
+}
+
+function selectedClips() {
+  return [...document.querySelectorAll(".clip-check:checked")].map((box) => box.dataset.id);
+}
+
+async function runClipAction(kind, el) {
+  const ids = selectedClips();
+  if (!ids.length) return toast("先勾选至少一条。", "bad");
+  const box = document.getElementById("clip-progress");
+  el.disabled = true;
+  try {
+    if (kind === "delete") {
+      const data = await api("/api/clips/delete", { method: "POST", body: JSON.stringify({ ids }) });
+      toast(`已删除 ${data.removed} 条`, "ok");
+      await loadVocab(); renderVocab(); bindDynamic();
+      return;
+    }
+    if (box) box.innerHTML = progressHtml("clip-prog", "连接 Anki…", 0.05);
+    const { jobId } = await api("/api/clips/import", { method: "POST", body: JSON.stringify({ ids }) });
+    const result = await pollJob(jobId, "clip-prog");
+    toast(result.message || `已写入 ${result.added} 张卡`, "ok");
+    await loadVocab(); renderVocab(); bindDynamic();
+  } catch (error) {
+    toast(error.message, "bad");
+  } finally {
+    el.disabled = false;
+  }
+}
+
+async function runDictInstall(el) {
+  const box = document.getElementById("clip-progress");
+  if (box) box.innerHTML = progressHtml("clip-prog", "下载 ECDICT…", 0.02);
+  el.disabled = true;
+  try {
+    const { jobId } = await api("/api/dict/install", { method: "POST" });
+    await pollJob(jobId, "clip-prog");
+    toast("本地词典已就绪，可以直接在浏览器里划词", "ok");
+    await loadVocab(); renderVocab(); bindDynamic();
+  } catch (error) {
+    toast(error.message, "bad");
+    el.disabled = false;
   }
 }
 
@@ -1216,6 +1317,7 @@ const PALETTE_ITEMS = [
   { label: "Generate sample audio", hint: "Kokoro", icon: "speaker", run: () => { setRoute("speak"); setTimeout(() => document.getElementById("tts-btn")?.click(), 500); } },
   { label: "Launch Anki", hint: "AnkiConnect", icon: "play", run: () => handleAction("anki-launch", {}) },
   { label: "Export annotations", hint: "Anki", icon: "download", run: () => { setRoute("vocab"); setTimeout(() => runAnkiAction("export"), 600); } },
+  { label: "Install local dictionary", hint: "ECDICT · for browser clipping", icon: "book", run: () => { setRoute("vocab"); setTimeout(() => document.querySelector('[data-action="dict-install"]')?.click(), 700); } },
   { label: "Analyze a recording", hint: "Whisper + Praat", icon: "wave", run: () => { setRoute("speak"); state.speakTab = "analyze"; setTimeout(() => renderSpeakSide(), 500); } },
   { label: "Open data folder", hint: "local", icon: "folder", run: () => api("/api/open", { method: "POST", body: JSON.stringify({ kind: "data" }) }) }
 ];

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Prism — 把一篇论文拆成读、写、说</title>
-<meta name="description" content="Prism 是本地优先的学术英语工作台：从 Zotero 挑一篇论文，生成 3 分钟讲述稿、Kokoro 示范音、录音复盘、Phrasebank 改写与 Anki 复习。数据全在你自己机器上。">
+<meta name="description" content="Prism 是本地优先的学术英语工作台：从 Zotero 挑一篇论文，生成 3 分钟讲述稿、Kokoro 示范音、录音复盘、Phrasebank 改写，网页上划的词和本机词典释义直接进 Anki。数据全在你自己机器上。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prism — 把一篇论文拆成读、写、说">
 <meta property="og:description" content="本地优先的学术英语工作台：读、写、说、复习在同一个窗口里闭环。">
@@ -34,14 +34,14 @@
     <div class="hero-copy">
       <p class="eyebrow">local-first · windows · MIT</p>
       <h1>论文读完了，<br>却讲不出来？</h1>
-      <p class="lede">Prism 把<strong>同一篇论文</strong>拆成读、写、说三条可练习的线：从 Zotero 取出文献，生成 3 分钟讲述稿，听示范音、录自己的版本、拿到可比较的复盘，再把标注送进 Anki。一个窗口，一条闭环，数据全部留在本机。</p>
+      <p class="lede">Prism 把<strong>同一篇论文</strong>拆成读、写、说三条可练习的线：从 Zotero 取出文献，生成 3 分钟讲述稿，听示范音、录自己的版本、拿到可比较的复盘，网页上划过的词也顺手落进 Anki。一个窗口，一条闭环，数据全部留在本机。</p>
       <div class="cta">
         <a class="solid big" href="https://github.com/Lumenhao/Prism/archive/refs/heads/main.zip">下载 Prism</a>
-        <a class="ghost big" href="#start">两步启动 →</a>
+        <a class="ghost big" href="#start">怎么开始 →</a>
       </div>
       <ul class="proof">
         <li><b>341</b> 篇 Zotero 文献只读索引</li>
-        <li><b>177.75s</b> Kokoro 示范音</li>
+        <li><b>77 万</b> 词条本机词典</li>
         <li><b>WER 9.8%</b> 真实录音复盘</li>
         <li><b>0</b> 条数据上传</li>
       </ul>
@@ -70,13 +70,13 @@
       </article>
       <article>
         <h3>背了词，用不上</h3>
-        <p>标注留在 Zotero，复习在 Anki，口语又是另一个软件。Prism 把带翻译的标注一键导出成卡片，并把每次练习记进同一份进度里。</p>
+        <p>生词散落在网页、PDF 和四个标签页里，复习在 Anki，口语又是另一个软件。Prism 用一个本机词典接住浏览器里划过的词，也把 Zotero 标注一键导出成卡片，全部记进同一份进度。</p>
       </article>
     </div>
   </section>
 
   <section id="tour" class="block">
-    <h2>六个工作区，各管一件事</h2>
+    <h2>六个工作区，外加一个浏览器扩展</h2>
     <div class="tour">
       <article class="shot-card">
         <img class="shot-dark" src="assets/library.webp" alt="Library 工作区" loading="lazy" width="1440" height="900">
@@ -101,12 +101,16 @@
       <article class="shot-card">
         <img class="shot-dark" src="assets/vocab.webp" alt="Vocab 工作区" loading="lazy" width="1440" height="900">
         <img class="shot-light" src="assets/vocab-light.webp" alt="Vocab 工作区（浅色）" loading="lazy" width="1440" height="900">
-        <div><h3>Vocab · 复习</h3><p>预览 Zotero 里带翻译的标注，一键写入 Anki 的 <code>Prism::*</code> 牌组；首页显示今日到期数，第二天照常复习。</p></div>
+        <div><h3>Vocab · 复习</h3><p>浏览器划来的词先进收件箱，勾一下才写进 <code>Prism::Vocab</code>；Zotero 里带翻译的标注同样一键导出。首页显示今日到期数，第二天照常复习。</p></div>
       </article>
       <article class="shot-card">
         <img class="shot-dark" src="assets/settings.webp" alt="Settings 工作区" loading="lazy" width="1440" height="900">
         <img class="shot-light" src="assets/settings-light.webp" alt="Settings 工作区（浅色）" loading="lazy" width="1440" height="900">
         <div><h3>Settings · 检查</h3><p>改端口、Anki 与 Zotero 路径、音色与模型；每个外部工具显示真实路径与状态；深色 / 浅色主题在这里切换。</p></div>
+      </article>
+      <article class="shot-card">
+        <img src="assets/clip.webp" alt="在网页里划词，Prism 弹出释义卡片" loading="lazy" width="1440" height="900">
+        <div><h3>浏览器 · 划词</h3><p>自带一个 4 个文件的 MV3 扩展：划中单词，释义来自本机 77 万词条的 ECDICT 索引，不查任何在线服务。Prism 没开时先存在扩展里，启动后自动补交。</p></div>
       </article>
     </div>
     <p class="theme-note">两种主题，随时切换 —— 深色适合夜里，浅色适合白天和投影。</p>
@@ -117,17 +121,18 @@
   </section>
 
   <section id="start" class="block narrow">
-    <h2>两步启动</h2>
+    <h2>怎么开始</h2>
     <ol class="steps">
       <li><span>1</span><div><h3>拿到代码</h3><p><code>git clone https://github.com/Lumenhao/Prism.git</code>，或在 GitHub 点 <b>Code → Download ZIP</b> 解压。</p></div></li>
       <li><span>2</span><div><h3>双击 <code>Prism.bat</code></h3><p>第一次会自动建虚拟环境、装 CPU 版依赖（约 1.5 GB，5–15 分钟），装完直接打开工作台。之后每次启动只要几秒。</p></div></li>
       <li><span>3</span><div><h3>（可选）接上你自己的资料</h3><p>Zotero：Settings 里填 <code>zotero.sqlite</code> 路径。Anki：装好 <a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect</a> 并启动 Anki，然后在 <b>Vocab → 初始化牌组</b>。</p></div></li>
+      <li><span>4</span><div><h3>（可选）让浏览器也能划词</h3><p>Vocab 页点 <b>安装本地词典</b>（约 66 MB，只装一次），再到 <code>chrome://extensions</code> 开开发者模式、加载 <code>Prism\extension</code> 文件夹。之后在任何网页划中单词就能看到释义，点「存到 Anki」进收件箱。</p></div></li>
     </ol>
     <div class="install">
       <p>安装位置统一收在一处，方便整体删除：</p>
       <pre>E:\LumenSuite
-├─ Prism\    代码、.venv、data（录音 / 报告 / 快照）
-├─ models\   Kokoro、Whisper、HuggingFace 缓存
+├─ Prism\    代码、.venv、data（录音 / 报告 / 快照 / 划词）
+├─ models\   Kokoro、Whisper、ECDICT 词典、HuggingFace 缓存
 ├─ tools\    Python 3.12、Anki、Vale、FFmpeg
 └─ cache\    uv / pip 下载缓存</pre>
       <p class="muted">没有 E 盘时自动改用 <code>%LOCALAPPDATA%\LumenSuite</code>，也可以用环境变量 <code>LUMEN_SUITE</code> 指定。</p>
@@ -139,6 +144,7 @@
     <details open><summary>我的论文、录音会被上传吗？</summary><p>不会。Zotero 走只读快照，Anki 走本机 <code>127.0.0.1:8765</code>；模型下载是唯一的联网步骤，练习数据只写本地 <code>data/</code>。</p></details>
     <details><summary>Anki 显示“未连接”，是牌组名的问题吗？</summary><p>不是。连接只取决于三件事：Anki 正在运行、AnkiConnect 已安装并启用、端口是 8765。牌组统一叫 <code>Prism::Vocab</code> / <code>Prism::Phrases</code> / <code>Prism::Listening</code>；旧的 <code>PaperToTalk::*</code> 牌组会在初始化时自动迁移卡片。</p></details>
     <details><summary>不用 Zotero 或 Anki 能用吗？</summary><p>可以。Speak 与 Write 不依赖它们；Library 需要 Zotero 数据库，Vocab 需要 Anki。缺哪个，对应页面会给提示，其余功能照常。</p></details>
+    <details><summary>划词扩展会把我在看的网页发出去吗？</summary><p>不会。扩展的权限里只有一个 <code>http://127.0.0.1:7317/*</code>，除了你划中的那几个字符和当前网址，什么都不读；词典是本机 SQLite，不查任何在线服务。Prism 没开时，词先存在扩展自己的存储里，下次启动自动补交，也可以随时在扩展弹窗里清空。</p></details>
     <details><summary>第一次合成语音要下载什么？</summary><p>Kokoro 约 330 MB、Whisper <code>base.en</code> 约 150 MB，默认走 <code>hf-mirror.com</code>，落在 <code>E:\LumenSuite\models</code>，之后离线可用。</p></details>
     <details><summary>支持 macOS / Linux 吗？</summary><p>后端是 FastAPI + 静态前端，理论上可跑；目前只在 Windows 上验证过启动脚本与桌面窗口。其他系统可手动安装依赖后运行 <code>python -m uvicorn app.server:APP --port 7317</code>。</p></details>
     <details><summary>怎么彻底删除？</summary><p>删掉仓库目录，再删 <code>E:\LumenSuite</code>（或你设置的 <code>LUMEN_SUITE</code>）。Anki 里导出的卡片在 Anki 内删除。</p></details>

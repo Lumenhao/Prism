@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+  Static fixture used by scripts/shots.py to photograph the clipping popup.
+  It loads the real extension/content.js and feeds it a canned entry, so the
+  screenshot needs neither a browser extension host nor a running Prism.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stacking-order disorder in few-layer graphene — preview</title>
+<style>
+  body { margin: 0; background: #fff; color: #1c1f26; font: 17px/1.75 Georgia, "Times New Roman", serif; }
+  .page { max-width: 660px; margin: 0 auto; padding: 64px 28px 120px; }
+  .kicker { font: 600 12px/1 "Segoe UI", system-ui, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #9a6a3c; }
+  h1 { font-size: 31px; line-height: 1.28; margin: 14px 0 10px; font-weight: 600; }
+  .byline { font: 13px/1.6 "Segoe UI", system-ui, sans-serif; color: #767c88; margin-bottom: 26px; }
+  p { margin: 0 0 18px; }
+  p.first::first-letter { font-size: 20px; }
+  .lede { color: #3c4250; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="kicker">Materials · correspondence</div>
+  <h1>Where the stacking-order disorder actually comes from</h1>
+  <div class="byline">Reading time 6 min · saved to a local library</div>
+  <p class="lede">The devices were exfoliated the usual way, and the trouble showed up only after the second anneal: a
+  disorder in the layer sequence that no one had introduced on purpose. Raman maps put it right under the edge of the flake,
+  which is exactly where the polymer residue collects.</p>
+  <p>What matters for a transport measurement is that the disorder is not uniform. It sits in the first two layers, leaves
+  the bulk of the channel alone, and therefore biases any average you take over the whole device. The authors report the
+  shift in the charge-neutrality point, but not its spread, and the spread is the part that decides whether a
+  hysteresis window is a property of the material or of your lithography.</p>
+  <p>We kept the same flakes for a week. Nothing degraded, nothing cleaned up either.</p>
+  <p>The practical reading is unglamorous. Disorder is not a number you report in the caption of a figure; it is a
+  constraint on what the device can tell you. Once you accept that, the experiment gets shorter, because half of the
+  questions you were going to ask are already answered by the metrology you skipped.</p>
+  <p>We now image the edge before we bond the gate, which costs an afternoon and saves a month. The reviewer who asked
+  whether the effect survives a second device is, as usual, the one who was right.</p>
+</div>
+<script>
+window.chrome = {
+  storage: { local: { get: () => Promise.resolve({}), set: () => Promise.resolve() } },
+  runtime: { sendMessage: (message, respond) => respond && respond({ ok: false, reason: "preview only" }) }
+};
+</script>
+<script src="../extension/content.js"></script>
+<script>
+const ENTRY = {
+  word: "disorder",
+  phonetic: "dis'ɒ:dә",
+  translation: "n. 杂乱, 混乱\nvt. 扰乱, 使失调",
+  definition: "n. a physical condition in which there is a disturbance of normal functioning",
+  tags: ["CET4", "CET6", "考研", "IELTS"],
+  exchange: ["复数/三单 disorders", "过去分词 disordered", "现在分词 disordering"],
+  collins: 2,
+  source: "ECDICT（本机）"
+};
+
+function render() {
+  const walker = document.createTreeWalker(document.querySelector("p.lede"), NodeFilter.SHOW_TEXT);
+  let node = walker.nextNode();
+  let index = node.textContent.indexOf("disorder");
+  while (node && index < 0) {
+    node = walker.nextNode();
+    index = node ? node.textContent.indexOf("disorder") : -1;
+  }
+  const range = document.createRange();
+  range.setStart(node, index);
+  range.setEnd(node, index + "disorder".length);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  show(ENTRY, "disorder", range.getBoundingClientRect());
+  document.documentElement.dataset.ready = "1";
+}
+
+render();
+flatten();
+
+// Headless Edge lays the shadow card out but never composites it into --screenshot,
+// so the fixture copies the real markup and stylesheet back into the light DOM.
+function flatten() {
+  const host = document.getElementById("prism-clip-host");
+  const style = document.createElement("style");
+  style.textContent = host.shadowRoot.querySelector("style").textContent;
+  const card = document.createElement("div");
+  card.className = "root";
+  card.style.cssText = `position: fixed; top: ${host.style.top}; left: ${host.style.left};`;
+  card.innerHTML = host.shadowRoot.querySelector(".root").innerHTML;
+  host.remove();
+  document.body.append(style, card);
+}
+</script>
+</body>
+</html>

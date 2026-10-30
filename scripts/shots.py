@@ -30,18 +30,19 @@ ROUTES = [
 # The landing page swaps screenshots with its own theme, so every view is shot twice.
 # The dark pass keeps the bare file name so the existing docs links stay valid.
 SHOTS = [
-    (f"{name}-light" if theme == "light" else name, route, theme)
+    (f"{name}-light" if theme == "light" else name, f"{BASE}?theme={theme}#/{route}")
     for name, route in ROUTES
     for theme in ("dark", "light")
 ]
+# The extension popup only exists inside a browser, so the fixture in scripts/ fakes one.
+SHOTS.append(("clip", (ROOT / "scripts" / "clip-preview.html").as_uri()))
 
 WIDTH, HEIGHT, SCALE = 1440, 900, 2
 
 
-def capture(name: str, route: str, theme: str, timeout: int = 90) -> Path:
+def capture(name: str, url: str, timeout: int = 90) -> Path:
     raw = RAW / f"raw-{name}.png"
     profile = Path(tempfile.mkdtemp(prefix="prism-shot-"))
-    url = f"{BASE}?theme={theme}#/{route}"
     cmd = [
         str(EDGE),
         "--headless=new",
@@ -82,10 +83,10 @@ def main() -> int:
     for folder in (RAW, DOCS, SITE):
         folder.mkdir(parents=True, exist_ok=True)
     only = set(sys.argv[1:])
-    for name, route, theme in SHOTS:
+    for name, url in SHOTS:
         if only and name not in only:
             continue
-        path = capture(name, route, theme)
+        path = capture(name, url)
         print(f"{path.name}: {Image.open(path).size}")
 
 

@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Prism 划词",
+  "version": "0.4.0",
+  "description": "选中英文即可查本机词典，一键把生词连同原句送进 Prism，再由 Prism 写入 Anki。不联网、不上传。",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["http://127.0.0.1:7317/*"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html", "default_title": "Prism 划词" },
+  "icons": { "16": "prism-16.png", "32": "prism-32.png", "48": "prism-48.png", "64": "prism-64.png", "128": "prism-128.png" },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

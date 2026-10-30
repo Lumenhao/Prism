@@ -50,6 +50,13 @@ if ($LASTEXITCODE -ne 0) {
     throw "Installation finished but the core packages could not be imported. Delete .venv and run setup_env.ps1 again."
 }
 
+# Browser clipping needs a dictionary on disk. Best effort: Prism can install it later too.
+try {
+    & $python scripts\get_dict.py
+} catch {
+    Write-Warning "Local dictionary was not downloaded. Open Prism -> Vocab and click 安装本地词典."
+}
+
 Write-Host ""
 Write-Host "Done. Start the workbench with:"
 Write-Host "  .\Prism.bat"

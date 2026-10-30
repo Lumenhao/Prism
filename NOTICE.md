@@ -25,6 +25,7 @@ Prism 包含原创脚本、原创说明与受第三方启发的训练材料。�
 | AnkiConnect | AGPL-3.0，<https://github.com/FooSoft/anki-connect>（由 Anki 插件分发） |
 | Zotero | AGPL-3.0，<https://www.zotero.org/> |
 | Zotero PDF Translate | AGPL-3.0，<https://github.com/windingwind/zotero-pdf-translate> |
+| ECDICT | MIT，<https://github.com/skywind3000/ECDICT>（本机英汉词典，由 `scripts/get_dict.py` 下载并建索引） |
 | Yomitan | GPL-3.0，<https://github.com/yomidevs/yomitan> |
 | LTeX+ | MIT，<https://github.com/ltex-plus/ltex-ls-plus> |
 | Vale | MIT，<https://github.com/vale-cli/vale> |
@@ -39,6 +40,8 @@ Prism 包含原创脚本、原创说明与受第三方启发的训练材料。�
 | YouGlish | 商业网站，<https://youglish.com/>，仅链接，不抓取 |
 
 具体版本与条款以各项目页面为准。
+
+`extension/` 是本项目自写的极简划词扩展（MIT，随本仓库同许可），不复制任何第三方扩展的代码；它只在运行时读取你主动选中的文字，并把它发给本机的 Prism。
 
 ## 内容与数据
 

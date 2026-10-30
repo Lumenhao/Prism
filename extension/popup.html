@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<h1>Prism 划词</h1>
+<p id="status" class="status">正在检查…</p>
+<label class="row">
+  <input type="checkbox" id="enabled" checked>
+  <span>在网页里划词时显示释义</span>
+</label>
+<div class="row">
+  <button id="flush" class="wide">把排队的条目补交给 Prism</button>
+</div>
+<div class="row split">
+  <a class="btn" id="open" href="http://127.0.0.1:7317/#/vocab" target="_blank" rel="noreferrer">打开收件箱</a>
+  <a class="btn quiet" href="http://127.0.0.1:7317/" target="_blank" rel="noreferrer">打开 Prism</a>
+</div>
+<p class="foot">词典查询与保存都只走 127.0.0.1，页面内容不会离开这台机器。</p>
+<script src="popup.js"></script>
+</body>
+</html>

@@ -12,10 +12,10 @@ from fastapi import Body, FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from .core import AUDIO, DATA, ROOT, jobs, load_config, save_config
-from .services import anki, dashboard, library, speech, tools, writing
+from .core import AUDIO, DATA, ROOT, get_module, jobs, load_config, save_config
+from .services import anki, dashboard, lexicon, library, speech, tools, writing
 
-APP = FastAPI(title="Prism", version="0.3.1")
+APP = FastAPI(title="Prism", version="0.4.0")
 WEB = Path(__file__).resolve().parent / "web"
 SCRIPTS = DATA / "scripts"
 SCRIPTS.mkdir(parents=True, exist_ok=True)
@@ -149,6 +149,60 @@ def anki_export(payload: dict[str, Any] = Body(default={})) -> dict[str, str]:
         return result
 
     return {"jobId": jobs.submit("anki-export", task)}
+
+
+@APP.get("/api/dict")
+def dict_lookup(q: str = "") -> dict[str, Any]:
+    return lexicon.lookup(q)
+
+
+@APP.post("/api/dict/install")
+def dict_install() -> dict[str, str]:
+    def task(progress):
+        module = get_module("get_dict")
+        module.download(module.URL, False, progress)
+        count = module.build(False, progress)
+        result = {"entries": count, "db": str(module.DB_PATH)}
+        dashboard.record("vocab", "安装本地词典", result)
+        return result
+
+    return {"jobId": jobs.submit("dict-install", task)}
+
+
+@APP.get("/api/clips")
+def clips_list(limit: int = Query(200, ge=1, le=1000)) -> dict[str, Any]:
+    return lexicon.clips(limit)
+
+
+@APP.post("/api/clips")
+def clips_add(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
+    try:
+        record = lexicon.add_clip(payload)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    return {"id": record["id"], "word": record["word"]}
+
+
+@APP.post("/api/clips/import")
+def clips_import(payload: dict[str, Any] = Body(default={})) -> dict[str, Any]:
+    raw = payload.get("ids")
+    ids = [str(item) for item in raw] if isinstance(raw, list) and raw else None
+
+    def task(progress):
+        progress("检查 AnkiConnect", 0.2)
+        result = lexicon.import_clips(ids)
+        progress(result["message"], 1.0)
+        dashboard.record("vocab", "把划词收件箱写入 Anki", result)
+        return result
+
+    return {"jobId": jobs.submit("clips-import", task)}
+
+
+@APP.post("/api/clips/delete")
+def clips_delete(payload: dict[str, Any] = Body(...)) -> dict[str, int]:
+    raw = payload.get("ids")
+    ids = [str(item) for item in raw] if isinstance(raw, list) else []
+    return {"removed": lexicon.drop(ids)}
 
 
 @APP.get("/api/scripts")

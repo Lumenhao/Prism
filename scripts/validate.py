@@ -64,13 +64,23 @@ REQUIRED_FILES = [
     "speaking/mpvacious.md",
     "speaking/samples/sample_talk.md",
     "scripts/validate.py",
+    "scripts/get_dict.py",
+    "app/services/lexicon.py",
+    "extension/manifest.json",
+    "extension/background.js",
+    "extension/content.js",
+    "extension/popup.html",
+    "extension/popup.js",
+    "extension/README.md",
     "tests/test_speak.py",
     "tests/test_anki.py",
     "tests/test_zotero.py",
+    "tests/test_lexicon.py",
 ]
 
 JSON_FILES = [
     "config.json",
+    "extension/manifest.json",
     "writing/ltex-settings.json",
     "speaking/pronunciation.json",
 ]
@@ -190,6 +200,24 @@ def check_link(source: Path, raw: str) -> None:
         error(f"{source.relative_to(ROOT)}：相对链接失效：{raw}")
 
 
+def check_extension() -> None:
+    """The clip extension is the part users install elsewhere, so keep its surface small."""
+    path = ROOT / "extension" / "manifest.json"
+    if not path.exists():
+        return
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    if manifest.get("host_permissions") != ["http://127.0.0.1:7317/*"]:
+        error("扩展的 host_permissions 必须只有本机 Prism 一个地址")
+    if set(manifest.get("permissions", [])) - {"storage", "alarms"}:
+        error("扩展只能申请 storage / alarms 两种权限")
+    files = list(manifest.get("content_scripts", [{}])[0].get("js", []))
+    files += [manifest.get("background", {}).get("service_worker", ""), manifest.get("action", {}).get("default_popup", "")]
+    files += list(manifest.get("icons", {}).values())
+    for rel in files:
+        if rel and not (path.parent / rel).exists():
+            error(f"扩展清单引用了不存在的文件：extension/{rel}")
+
+
 def check_repo_hygiene() -> None:
     gitignore = ROOT / ".gitignore"
     if gitignore.exists():
@@ -207,6 +235,7 @@ def main() -> int:
     check_json()
     check_config()
     check_phrases()
+    check_extension()
     check_links()
     check_repo_hygiene()
 

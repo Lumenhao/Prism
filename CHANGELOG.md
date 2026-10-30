@@ -9,6 +9,31 @@
 - macOS / Linux 的 shell 等价脚本；
 - 可选的语音依赖 CI job。
 
+## [0.4.0] - 2026-10-30
+
+### Added
+
+- **浏览器划词 → Anki**：`extension/` 是自带极简 MV3 扩展（约 30 秒装载），在任意网页选中英文即弹出音标、中文释义、考试标签与词形变化；点「存到 Anki」把词、原句、页面链接送进收件箱，在 **Vocab → 划词收件箱** 勾选后写成 `Prism::Vocab` 卡片。
+- **本机英汉词典**：`scripts/get_dict.py` 下载 ECDICT（66 MB）并索引成 770,611 条的 SQLite（约 11 秒，101 MB），存放在 `E:\LumenSuite\models\ecdict`；`app/services/lexicon.py` 只读查询，毫秒级返回，之后完全离线。`setup_env.ps1` 会自动跑一次，失败也不影响安装。
+- **离线补交**：Prism 没开时扩展把条目暂存在 `chrome.storage.local`，`chrome.alarms` 每分钟重试一次；角标显示待写卡数、排队数（`+N`）与离线（`!`）。
+- 新接口：`GET /api/dict`、`POST /api/dict/install`、`GET/POST /api/clips`、`POST /api/clips/import`、`POST /api/clips/delete`。
+- Vocab 页新增第 5 张统计卡与「划词收件箱」面板（勾选、写卡、删除、安装词典、进度条）；Overview 的 Next move 在有待写条目时多一项直达；命令面板新增 `Install local dictionary`。
+- `tests/test_lexicon.py`：13 个用例覆盖归一化、查词（大小写 / 缺失 / 未装词典）、收件箱读写、损坏行容错、卡片字段映射与 AnkiConnect 调用序列；总数 38 → 51。
+- `scripts/validate.py` 新增 `check_extension()`：扩展的 `host_permissions` 只能是本机 7317、权限只能是 storage/alarms、清单引用的文件必须存在。
+
+### Changed
+
+- 划词导入前先确认牌组与笔记类型：牌组缺失时自动 `createDeck`，笔记类型缺失时报「先在 Vocab 页点『初始化牌组』」——否则 AnkiConnect 的 `canAddNotes` 会把所有条目判成「重复」。
+- `get_dict.py build()` 在索引比 csv 新时直接复用，重复运行不再每次重建。
+- Vocab 副标题改为「Zotero 标注与浏览器划词 → Anki 复习」；README 中英两版新增「在浏览器里划词」章节，NOTICE / PRIVACY 补 ECDICT 与扩展的数据流向。
+- 文档与主页：新增划词截图 `assets/screenshots/clip.png`，主页标题改成「六个工作区，外加一个浏览器扩展」并补一张划词卡，启动步骤加到 4 步，FAQ 补「扩展会不会把网页发出去」。
+- 版本号统一到 0.4.0。
+
+### Fixed
+
+- `lexicon.lookup()` 用 `with conn` 只提交不关闭连接，改为 `contextlib.closing`。
+- `scripts/shots.py` 现在也能拍扩展浮层：headless Edge 会把 Shadow DOM 里的卡片排好版却不合成进 `--screenshot`，所以布景页 `scripts/clip-preview.html` 调用真实的 `content.js`，再把标记与样式平铺回 light DOM 拍给文档用。
+
 ## [0.3.1] - 2026-10-30
 
 ### Added

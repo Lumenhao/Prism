@@ -1,0 +1,26 @@
+body {
+  width: 288px;
+  margin: 0;
+  padding: 14px 16px 12px;
+  font: 13px/1.65 "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+  color: #22262d;
+  background: #fdfbf7;
+}
+
+h1 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+.status { margin: 0 0 10px; color: #43796b; }
+.status.off { color: #b85c4a; }
+.status.warn { color: #9a7430; }
+
+.row { display: flex; align-items: center; gap: 8px; margin: 8px 0; }
+.row.split { justify-content: space-between; }
+.row label, .row span { color: #3e444e; }
+
+button, .btn {
+  font: inherit; border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  border: 1px solid #ddd6c8; background: #fff; color: #22262d; text-decoration: none;
+}
+button:hover, .btn:hover { border-color: #b85c4a; color: #b85c4a; }
+button.wide { width: 100%; }
+.btn.quiet { color: #6b7280; }
+.foot { margin: 10px 0 0; font-size: 11.5px; color: #8b929d; }

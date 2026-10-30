@@ -53,7 +53,7 @@ Prism 不打算再给你一份功能清单。它把 **同一篇论文** 放进�
 ```text
 E:\LumenSuite
 ├─ Prism\      代码、.venv、data（录音 / 报告 / 快照）
-├─ models\     Kokoro、Whisper、HuggingFace / Torch 缓存
+├─ models\     Kokoro、Whisper、ECDICT（浏览器词典）、HF / Torch 缓存
 ├─ tools\      Python 3.12、Anki、Vale、FFmpeg（如已安装）
 └─ cache\      uv / pip / 下载缓存
 ```
@@ -77,11 +77,26 @@ Prism 自己产生的数据都在 `data/`，已被 `.gitignore` 排除；与这�
 <td><img src="assets/screenshots/speak.png" alt="Speak"></td>
 <td><img src="assets/screenshots/write.png" alt="Write"></td>
 </tr>
+<tr>
+<td><img src="assets/screenshots/vocab.png" alt="Vocab"></td>
+<td><img src="assets/screenshots/clip.png" alt="在浏览器里划词"></td>
+</tr>
 </table>
 
 <p align="center"><img src="assets/screenshots/report.png" alt="口语分析报告" width="88%"></p>
 
 <p align="center"><img src="assets/screenshots/overview-light.png" alt="浅色主题" width="88%"></p>
+
+## 在浏览器里划词
+
+阅读发生在浏览器，不在工作台里——所以路上遇到的词要自己能回来。
+
+1. **Vocab → 安装本地词典**：一次性下载 ECDICT（66 MB → 770,611 条，MIT），索引存到 `E:\LumenSuite\models\ecdict`。之后查词完全离线，毫秒级返回。
+2. 把 `extension/` 作为「已解压的扩展程序」加载（`chrome://extensions` → 开发者模式；Edge 用同一个文件夹即可）。步骤见 [extension/README.md](extension/README.md)。
+3. 在任意网页选中英文单词或短语：浮层给出音标、中文释义、考试标签（CET / TOEFL / IELTS / GRE）和词形变化。点 **存到 Anki**，词、它所在的那句话、页面链接一起进收件箱。
+4. 回到 **Vocab → 划词收件箱**，勾选后点 **勾选的写入 Anki**——卡片落到 `Prism::Vocab`，带原句和回链。
+
+如果你划词时 Prism 没开，扩展会先把条目存在浏览器本地，等工作台回来的一分钟内自动补交。所有内容只发往 `127.0.0.1:7317`，扩展的 `host_permissions` 里也只有这一个地址。
 
 ## 六个工作区
 
@@ -91,7 +106,7 @@ Prism 自己产生的数据都在 `data/`，已被 `.gitignore` 排除；与这�
 | **Library** | 论文散落在 Zotero，找不到也拆不开 | 搜索标题 / 作者 / 期刊；看摘要、标签、标注；打开 PDF、定位到 Zotero；一键生成 3 分钟讲述稿 |
 | **Speak** | 会读不会说，也没人指出问题 | **Listen** 生成示范音；**Terms** 查 17 个术语的 YouGlish 语境；**Analyze** 上传录音，得到转写、WER、停顿、波形与音高 |
 | **Write** | 句型记不住，段落写完心里没底 | 按论证功能检索 40 条 Phrasebank 句型；点句子插入段落实验室；Vale 与内置规则给出可执行的修改建议 |
-| **Vocab** | 标注和复习两张皮 | 预览 Zotero 标注 → 导出到 Anki；查看三个牌组的到期数；启动 Anki 或初始化牌组 |
+| **Vocab** | 标注和复习两张皮 | 浏览器划词与 Zotero 标注都汇到收件箱，勾选即导出 Anki；查看三个牌组的到期数；启动 Anki 或初始化牌组 |
 | **Settings** | 路径、端口、模型各在哪里 | 修改 Anki 地址、Anki 路径、Zotero 库、Kokoro 音色、Whisper 模型；查看各工具的真实状态；切换深色 / 浅色 |
 
 所有耗时任务（TTS、录音分析、Anki 导入）都在后台执行，顶部有进度，窗口不会卡住；切换页面也不会中断任务。
@@ -114,6 +129,9 @@ Prism 自己产生的数据都在 `data/`，已被 `.gitignore` 排除；与这�
 **模型和我的录音会被上传吗？**
 不会。下载模型是唯一的联网步骤；练习数据只写本地 `data/`。
 
+**划词扩展会不会看到我读的东西？**
+不会。它只响应你主动选中的文字，把那个词和它所在的一句发给 `127.0.0.1:7317`；Prism 没开时暂存在浏览器自己的本地存储里。权限里没有任何其他主机，没有统计，也没有更新服务器。
+
 **可以不用 Zotero 或 Anki 吗？**
 可以。Speak 和 Write 不依赖它们；Library 需要 Zotero 数据库，Vocab 需要 Anki。缺哪个，对应页面会给提示，其他功能照常可用。
 
@@ -129,8 +147,10 @@ Prism 自己产生的数据都在 `data/`，已被 `.gitignore` 排除；与这�
 - **40 条** Phrasebank 种子卡写入 `Prism::Phrases`；
 - Kokoro `af_heart` 合成 448 词 / **177.75 秒** 示范音；
 - Whisper `base.en` + Praat 分析真实录音：WER **9.8%**、内容词 WER **15.7%**，波形 320 点、音高 260 点、27 条差异；
+- 本机词典：**770,611** 条 ECDICT 词条，索引耗时 **11 秒**，之后查词只读磁盘；
+- 浏览器划词 → 收件箱 → `Prism::Vocab` 卡片，已在连真实 Anki 的环境下走通一遍；
 - YouGlish 17 条术语链接；Vale 3.25.1 与 FFmpeg 7.1 可执行文件被识别；
-- 38 个单元测试、`scripts/validate.py` 与 `ruff` 全部通过。
+- 51 个单元测试、`scripts/validate.py` 与 `ruff` 全部通过。
 
 尚未完成：mpvacious / Buzz 的图形界面流程仍需按 `speaking/mpvacious.md`、`speaking/buzz-and-praat.md` 手工操作；macOS / Linux 启动脚本未验证。
 
@@ -154,6 +174,7 @@ ruff check .
 # 词汇
 .\.venv\Scripts\python vocab\anki_setup.py --check
 .\.venv\Scripts\python vocab\zotero_to_anki.py --dry-run
+.\.venv\Scripts\python scripts\get_dict.py --check    # 浏览器划词用的本机词典
 
 # 写作检查
 E:\LumenSuite\tools\vale\vale.exe --config=writing\.vale.ini path\to\draft.md
@@ -162,6 +183,7 @@ E:\LumenSuite\tools\vale\vale.exe --config=writing\.vale.ini path\to\draft.md
 ## 隐私与许可
 
 - Zotero 只读；Anki 通过本机 AnkiConnect 写入；文章、标注、录音与卡片一律不上传。
+- 划词扩展只与 `127.0.0.1:7317` 通信，词典数据（ECDICT，MIT）下载一次后离线使用。
 - 代码 MIT；文档与训练材料 CC BY-NC 4.0；第三方归属见 [NOTICE.md](NOTICE.md) 与 [PRIVACY.md](PRIVACY.md)。
 - 示例讲稿是 2004 年石墨烯论文的口语改写，不含原文段落或图片。
 - `data/`、`config.local.json`、模型与录音均在 `.gitignore` 中。

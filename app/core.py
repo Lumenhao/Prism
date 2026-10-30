@@ -100,6 +100,7 @@ def get_module(name: str):
             "speak": ROOT / "speaking" / "speak.py",
             "zotero": ROOT / "vocab" / "zotero_to_anki.py",
             "anki": ROOT / "vocab" / "anki_setup.py",
+            "get_dict": ROOT / "scripts" / "get_dict.py",
         }
         module = _load_module(name, paths[name])
         _modules[name] = module
