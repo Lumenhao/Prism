@@ -29,6 +29,7 @@
 - 主页浅色模式下按钮文字、背景光晕与阴影仍沿用深色硬编码值；新增 `--on-accent` / `--accent-soft` / `--glow-*` / `--shadow` 等按主题取值的令牌。
 - `scripts/shots.py` 深浅两轮写到同一文件名，浅色把深色覆盖；现在浅色输出带 `-light` 后缀。
 - `webview.start()` 默认隐私模式导致主题选择跨启动丢失；改为持久化到 `E:\LumenSuite\data\webview`。
+- CI 的 Linux job 解析 Zotero `prefs.js` 时把 Windows 反斜杠留在文件名里，`test_parses_escaped_windows_path` 失败；`parse_zotero_data_dir` 现在统一按 `/` 分隔。
 
 ## [0.3.0] - 2026-10-30
 

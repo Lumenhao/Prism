@@ -52,7 +52,9 @@ def parse_zotero_data_dir(prefs_text: str) -> Path | None:
     if not match:
         return None
     raw = match.group(1).replace("\\\\", "\\")
-    return Path(raw)
+    # prefs.js carries Windows separators; on POSIX a backslash is part of the name, so
+    # normalise here rather than letting a Linux run read a Windows path as one filename.
+    return Path(raw.replace("\\", "/"))
 
 
 def find_zotero_db() -> Path | None:
