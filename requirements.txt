@@ -1,0 +1,15 @@
+# Prism workbench + speech pipeline.
+# Python 3.12 is recommended; torch/ctranslate2 wheels may lag behind 3.14.
+# Install torch first from the CPU index (see setup_env.ps1) to avoid a 2+ GB CUDA download.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pywebview>=5.1
+kokoro>=0.9.4
+misaki[en]>=0.9
+soundfile>=0.12.1
+numpy>=1.26
+faster-whisper>=1.0.3
+# PyAV 19 removed metadata_errors, which faster-whisper still calls; pin the 16.x API.
+av==16.0.1
+praat-parselmouth>=0.4.3
+imageio-ffmpeg>=0.5

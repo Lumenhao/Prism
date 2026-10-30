@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Prism — paper to talk workbench">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c0e12"/>
+      <stop offset="0.6" stop-color="#12151b"/>
+      <stop offset="1" stop-color="#171a21"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3efe7"/>
+      <stop offset="1" stop-color="#cfc8bb"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity=".25"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".8" cy=".15" r=".8">
+      <stop offset="0" stop-color="#e8a091" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#e8a091" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="300" rx="22" fill="url(#bg)"/>
+  <rect width="1200" height="300" rx="22" fill="url(#glow)"/>
+  <rect width="1200" height="300" rx="22" fill="url(#grid)"/>
+
+  <!-- incoming white beam -->
+  <path d="M760 150H908" stroke="url(#beam)" stroke-width="2"/>
+  <!-- prism -->
+  <g transform="translate(908 58)">
+    <path d="M64 0 128 108H0Z" fill="#171a21" stroke="#e9e5dd" stroke-opacity=".55" stroke-width="1.6"/>
+    <path d="M64 0 128 108H0Z" fill="none" stroke="url(#beam)" stroke-opacity=".18" stroke-width="6"/>
+    <!-- spectrum -->
+    <path d="M72 58 250 26" stroke="#e8a091" stroke-width="3" stroke-linecap="round"/>
+    <path d="M72 66 250 66" stroke="#d9b26f" stroke-width="3" stroke-linecap="round"/>
+    <path d="M72 74 250 106" stroke="#83b7a8" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="72" cy="66" r="3" fill="#f3efe7"/>
+  </g>
+
+  <!-- small paper mark -->
+  <g transform="translate(1010 150) rotate(0)" opacity=".9">
+    <rect x="0" y="0" width="96" height="112" rx="8" fill="url(#paper)"/>
+    <rect x="14" y="18" width="52" height="6" rx="3" fill="#0f1116" opacity=".78"/>
+    <rect x="14" y="34" width="66" height="4" rx="2" fill="#0f1116" opacity=".35"/>
+    <rect x="14" y="46" width="58" height="4" rx="2" fill="#0f1116" opacity=".35"/>
+    <rect x="14" y="58" width="63" height="4" rx="2" fill="#0f1116" opacity=".35"/>
+    <rect x="14" y="76" width="34" height="6" rx="3" fill="#c97668"/>
+  </g>
+
+  <g font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+    <text x="80" y="142" font-family="Iowan Old Style, Palatino Linotype, Georgia, serif" font-style="italic" font-size="82" fill="#f3efe7" letter-spacing="-1">Prism</text>
+    <text x="84" y="184" font-size="22" fill="#b9bec9" letter-spacing=".2">A local workbench for paper English.</text>
+    <text x="84" y="220" font-size="18" fill="#8e939f">读论文 · 拆句型 · 讲三分钟，所有练习都留成本地证据</text>
+    <rect x="84" y="244" width="120" height="3" rx="1.5" fill="#e8a091"/>
+    <rect x="212" y="244" width="54" height="3" rx="1.5" fill="#d9b26f" opacity=".9"/>
+    <rect x="274" y="244" width="30" height="3" rx="1.5" fill="#83b7a8" opacity=".9"/>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+graphene
+hBN
+F4-TCNQ
+TCNQ
+PMMA
+SiO2
+Si
+MoS2
+WSe2
+h-BN
+Hall bar
+back-gate
+top-gate
+dual-gate
+transfer curve
+hysteresis
+photoresist
+electron-beam lithography
+KLayout
+van der Waals
+moiré
+rhombohedral
+ABC-stacked
+compressibility
+dielectric
+substrate
+annealing
+encapsulation
+displacement field
+carrier density
+charge neutrality
+mobility
+quantum Hall
+near-field
+infrared
+SNOM

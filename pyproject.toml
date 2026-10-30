@@ -1,0 +1,33 @@
+[project]
+name = "prism-workbench"
+version = "0.2.0"
+description = "Prism: a local workbench for paper English — read, write and speak from one place"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+  { name = "Haoming Xing (Lumenhao)" },
+]
+keywords = ["academic-english", "anki", "zotero", "phrasebank", "speech", "praat", "workbench"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: Chinese (Simplified)",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Education",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.6"]
+
+[project.scripts]
+prism = "app.launch:main"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+# 先只保留“一定是 bug”的规则，避免把历史文档风格的代码一次性刷爆。
+select = ["E9", "F"]

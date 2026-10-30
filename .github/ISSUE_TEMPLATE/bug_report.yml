@@ -1,0 +1,67 @@
+name: Bug report
+description: 报告一个可复现的问题（脚本、配置、文档流程）
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。提交前请先跑 `python scripts/validate.py` 与 `python -m unittest discover -s tests`。
+        **不要**粘贴论文全文、Zotero 标注、录音、客户/未公开项目信息。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 实际行为与报错信息（可粘贴 traceback，注意去掉本地路径中的用户名）
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 你期望发生什么
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 运行 ...
+        2. 传入参数 ...
+        3. 看到 ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及模块
+      options:
+        - vocab / Anki / Zotero
+        - writing / Phrasebank / Vale / LTeX+
+        - speaking / Kokoro / Whisper / Praat
+        - mpvacious / Buzz
+        - scripts / tests / CI
+        - docs
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: 环境
+      description: 操作系统、Python 版本、Anki / Zotero / Praat 版本（只用得到哪个写哪个）
+      placeholder: Windows 11, Python 3.12.7, Anki 25.02, Zotero 7.0
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我确认内容中不含论文全文、未公开数据、他人录音或个人信息
+          required: true

@@ -1,0 +1,11 @@
+extends: existence
+message: "“%s” asserts consensus. Cite evidence or soften the claim."
+level: warning
+ignorecase: true
+tokens:
+  - obviously
+  - clearly
+  - of course
+  - it is well known that
+  - everyone knows
+  - it is obvious that

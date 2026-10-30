@@ -1,0 +1,9 @@
+extends: existence
+message: "“%s” is a claim reviewers will test. State precisely what is new."
+level: suggestion
+ignorecase: true
+tokens:
+  - novel
+  - for the first time
+  - unprecedented
+  - groundbreaking

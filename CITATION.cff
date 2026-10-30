@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "如果 PaperToTalk 帮你省下了搭管线的时间，可以按下面的信息引用。"
+title: "Prism (PaperToTalk): a local-first academic English workbench"
+abstract: >-
+  PaperToTalk connects Zotero and Yomitan highlights to Anki, combines
+  Academic Phrasebank style rhetorical moves with LTeX+ grammar checks and
+  Vale style rules for paper writing, and uses Kokoro, YouGlish, Whisper,
+  Praat and mpvacious for spoken academic English practice. Prism is the
+  local workbench that ties these into one window. The project is a personal
+  learning system, not a validated assessment instrument.
+authors:
+  - family-names: "Xing"
+    given-names: "Haoming"
+    alias: "Lumenhao"
+version: 0.2.0
+date-released: "2026-10-30"
+license: MIT
+repository-code: "https://github.com/Lumenhao/PaperToTalk"
+keywords:
+  - academic english
+  - anki
+  - zotero
+  - phrasebank
+  - speech analysis
+  - praat
+  - whisper

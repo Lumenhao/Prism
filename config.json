@@ -1,0 +1,28 @@
+{
+  "anki": {
+    "url": "http://127.0.0.1:8765",
+    "decks": {
+      "vocab": "PaperToTalk::Vocab",
+      "phrases": "PaperToTalk::Phrases",
+      "listening": "PaperToTalk::Listening"
+    },
+    "models": {
+      "vocab": "AE Vocab",
+      "phrase": "AE Phrase",
+      "listening": "AE Subs"
+    }
+  },
+  "zotero": {
+    "db": "E:/XuLab in Westlake University/Zotero/zotero.sqlite"
+  },
+  "system": {
+    "anki_exe": "E:/LumenSuite/tools/anki/Anki/anki.exe"
+  },
+  "speech": {
+    "kokoro_voice": "af_heart",
+    "whisper_model": "base.en"
+  },
+  "app": {
+    "port": 7317
+  }
+}

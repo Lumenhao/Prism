@@ -1,0 +1,15 @@
+extends: substitution
+message: "Use “%s” instead of “%s”."
+level: error
+ignorecase: false
+swap:
+  'h-BN': hBN
+  'H-BN': hBN
+  'hbn': hBN
+  'Hbn': hBN
+  'F4TCNQ': F4-TCNQ
+  'F4Tcnq': F4-TCNQ
+  'f4tcnq': F4-TCNQ
+  'mos2': MoS2
+  'sio2': SiO2
+  'wse2': WSe2

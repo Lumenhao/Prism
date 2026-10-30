@@ -1,0 +1,41 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Local runtime data ---
+# Zotero export state, generated reports, recordings, TextGrids
+data/*
+!data/.gitkeep
+reports/*
+!reports/.gitkeep
+speaking/samples/*.wav
+speaking/samples/*.m4a
+speaking/samples/*.mp3
+speaking/samples/*.flac
+speaking/samples/*.TextGrid
+*.TextGrid
+
+# --- Local OS / editor ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# --- Secrets ---
+.env
+.env.*
+*.pem
+config.local.json
+
+# --- Temporary ---
+*.tmp
+*.log
+zotero_snapshot_*.sqlite

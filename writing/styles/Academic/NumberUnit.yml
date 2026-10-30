@@ -1,0 +1,6 @@
+extends: existence
+message: "Add a space between the value and the unit (SI style): “%s”."
+level: warning
+nonword: true
+tokens:
+  - '\b\d+(\.\d+)?(nm|µm|μm|mm|cm|km|K|V|mV|A|mA|Hz|kHz|MHz|GHz|s|ms|min|h|Pa|kPa|GPa|eV|meV|T|mT|Ω)\b'

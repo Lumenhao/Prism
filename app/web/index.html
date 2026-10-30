@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prism — 从论文到讲述</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="rail">
+      <div class="brand" data-route="overview">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 4 28 26H4L16 4Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M2 15h8" stroke="var(--coral)" stroke-width="1.4"/>
+          <path d="M23 17h7M24 21h8M25 25h8" stroke="var(--amber)" stroke-width="1.4" opacity=".9"/>
+        </svg>
+        <div>
+          <div class="wordmark">Prism</div>
+          <div class="brand-sub">paper to talk</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-label">Workspace</div>
+        <a class="nav-item" data-route="overview" href="#/overview">
+          <span class="ico" data-icon="grid"></span><span>Overview</span>
+        </a>
+        <a class="nav-item" data-route="library" href="#/library">
+          <span class="ico" data-icon="library"></span><span>Library</span>
+        </a>
+        <div class="nav-label">Practice</div>
+        <a class="nav-item" data-route="speak" href="#/speak">
+          <span class="ico" data-icon="mic"></span><span>Speak</span>
+        </a>
+        <a class="nav-item" data-route="write" href="#/write">
+          <span class="ico" data-icon="pen"></span><span>Write</span>
+        </a>
+        <a class="nav-item" data-route="vocab" href="#/vocab">
+          <span class="ico" data-icon="cards"></span><span>Vocab</span>
+          <span class="nav-badge" id="due-badge" hidden></span>
+        </a>
+      </nav>
+
+      <div class="rail-foot">
+        <button class="tool-chip" id="anki-chip" title="Anki 连接状态">
+          <span class="dot" id="anki-dot"></span>
+          <span id="anki-label">Anki</span>
+        </button>
+        <a class="nav-item" data-route="settings" href="#/settings">
+          <span class="ico" data-icon="sliders"></span><span>Settings</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="titles">
+          <h1 id="page-title">Overview</h1>
+          <p id="page-sub">你的论文英语工作台</p>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-btn" id="open-palette">
+            <span class="ico" data-icon="search"></span>
+            <span>Quick actions</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+          <button class="primary-btn" id="today-action">
+            <span class="ico" data-icon="play"></span> Start session
+          </button>
+        </div>
+      </header>
+      <section id="view" class="view" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <div id="palette" class="palette" hidden>
+    <div class="palette-box">
+      <input id="palette-input" placeholder="跳转到… / 搜索动作" autocomplete="off">
+      <div id="palette-list" class="palette-list"></div>
+      <div class="palette-foot"><kbd>↑↓</kbd> 选择 <kbd>Enter</kbd> 打开 <kbd>Esc</kbd> 关闭</div>
+    </div>
+  </div>
+
+  <script src="/static/app.js" type="module"></script>
+</body>
+</html>

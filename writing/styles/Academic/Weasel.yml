@@ -1,0 +1,11 @@
+extends: existence
+message: "“%s” is vague. Replace it with a measurable claim or delete it."
+level: warning
+ignorecase: true
+tokens:
+  - very
+  - really
+  - extremely
+  - a lot of
+  - lots of
+  - stuff

@@ -1,0 +1,41 @@
+section,function,chinese_cue,template,example,source
+Introduction,Establishing importance,说明主题为什么重要,X has attracted considerable attention because of [property or application].,Rhombohedral graphene has attracted considerable attention because of its gate-tunable flat bands.,Phrasebank (adapted)
+Introduction,Background consensus,陈述领域共识,It is now well established that [statement].,It is now well established that encapsulation suppresses charge inhomogeneity in graphene devices.,Phrasebank (adapted)
+Introduction,Recent progress,概括近期进展,Recent studies have shown that [finding].,Recent studies have shown that dual gating can switch the stacking order of few-layer graphene.,Phrasebank (adapted)
+Introduction,Stating a gap,指出研究空白,"However, little is known about [X] under [condition].","However, little is known about how surface doping affects the stacking-order transition at low temperature.",Phrasebank (adapted)
+Introduction,Stating a gap,强调尚无系统研究,"To date, no systematic study has examined [X].","To date, no systematic study has examined the combined effect of gate voltage and molecular doping on ABC-stacked graphene.",Phrasebank (adapted)
+Introduction,Open question,提出未决问题,Whether [X] remains [Y] is still an open question.,Whether the ABC stacking remains stable after air exposure is still an open question.,Phrasebank (adapted)
+Introduction,Aim,说明本文目标,"Here, we address this question by [method].","Here, we address this question by combining dual-gate transport measurements with infrared near-field imaging.",Phrasebank (adapted)
+Introduction,Main claim,预告核心结论,We show that [main finding].,We show that the stacking order can be tuned reversibly without changing the total carrier density.,Phrasebank (adapted)
+Introduction,Scope,界定研究范围,This work focuses on [X]; [Y] is beyond the scope of this study.,This work focuses on five-layer devices; multilayer behavior at higher layer numbers is beyond the scope of this study.,Phrasebank (adapted)
+Methods,Sample preparation,描述样品制备,Samples were prepared by [method].,Samples were prepared by mechanically exfoliating graphite onto SiO2/Si substrates.,Phrasebank (adapted)
+Methods,Device fabrication,描述器件流程,Devices were fabricated using [process].,Devices were fabricated using electron-beam lithography and subsequent metal deposition.,Phrasebank (adapted)
+Methods,Measurement conditions,描述测量条件,Measurements were performed at [temperature] in [environment].,Measurements were performed at 1.5 K in a helium-exchange cryostat.,Phrasebank (adapted)
+Methods,Instrumentation,说明仪器与数据处理,Data were acquired with [instrument] and analysed using [software].,Data were acquired with a lock-in amplifier and analysed using Python.,Phrasebank (adapted)
+Methods,Controlling variables,说明如何控制变量,"To minimize [error], we [action].","To minimize contact resistance, we used a one-probe-per-contact geometry.",Phrasebank (adapted)
+Methods,Calibration,描述校准,The system was calibrated against [reference].,The gate capacitance was calibrated against the quantum Hall effect.,Phrasebank (adapted)
+Methods,Replication,说明重复性,Each measurement was repeated on [n] devices.,Each measurement was repeated on four devices from two growth batches.,Phrasebank (adapted)
+Methods,Definition,定义术语,"Throughout this paper, [term] refers to [definition].","Throughout this paper, 'stacking order' refers to the out-of-plane registry of the five layers.",Phrasebank (adapted)
+Results,Figure reference,引出图表,"As shown in Fig. [n], [observation].","As shown in Fig. 2a, the Hall resistance changes sign at Vg = -0.4 V.",Phrasebank (adapted)
+Results,Trend,描述趋势,[Y] increased monotonically with [X].,The transition temperature increased monotonically with the displacement field.,Phrasebank (adapted)
+Results,Magnitude,报告数值,"[X] reached [value] at [condition], corresponding to [interpretation].","The mobility reached 1.2 x 10^6 cm^2 V^-1 s^-1 at 1.5 K, corresponding to the clean limit.",Phrasebank (adapted)
+Results,Comparison,与已有结果对比,"In contrast to [previous work], [our result].","In contrast to previous reports, we observe no hysteresis in the transition.",Phrasebank (adapted)
+Results,Consistency,说明与机理一致,This behaviour is consistent with [mechanism].,This behaviour is consistent with screening by the top gate.,Phrasebank (adapted)
+Results,Absence of effect,报告无显著变化,No significant change was observed in [X] when [Y] was varied.,No significant change was observed in the band structure when the doping level was varied.,Phrasebank (adapted)
+Results,Error bars,说明误差来源,The error bars represent [definition].,The error bars represent one standard deviation across four devices.,Phrasebank (adapted)
+Discussion,Interpretation,解释结果,These results suggest that [mechanism].,These results suggest that the electric field stabilizes the ABC stacking.,Phrasebank (adapted)
+Discussion,Possible explanation,提出可能解释,A possible explanation is that [reason].,A possible explanation is that F4-TCNQ removes residual water from the surface.,Phrasebank (adapted)
+Discussion,Alternative explanation,提出替代解释,An alternative interpretation is that [reason].,An alternative interpretation is that the observed shift arises from contact doping rather than the bulk.,Phrasebank (adapted)
+Discussion,Implication,说明意义,This finding has implications for [application].,This finding has implications for the design of stacking-order memory devices.,Phrasebank (adapted)
+Discussion,Limitation,承认局限,One limitation of this approach is that [limitation].,One limitation of this approach is that it cannot resolve domains smaller than the probe diameter.,Phrasebank (adapted)
+Discussion,Generalizability,讨论普适性,It remains to be seen whether [finding] holds for [other system].,It remains to be seen whether the same mechanism holds for twisted multilayers.,Phrasebank (adapted)
+Discussion,Future work,展望后续工作,Future work should examine [question].,Future work should examine how the transition depends on layer number.,Phrasebank (adapted)
+Discussion,Conclusion,总结全文,"Taken together, these results indicate that [conclusion].","Taken together, these results indicate that doping and gating act on the stacking order through distinct mechanisms.",Phrasebank (adapted)
+Speaking,Opening,报告开场,Today I'll walk you through [topic] in three parts.,Today I'll walk you through our dual-gate results in three parts.,Own
+Speaking,Roadmap,说明报告结构,"First, I'll describe [X]; then I'll show [Y]; finally, I'll discuss [Z].","First, I'll describe the device; then I'll show the gate dependence; finally, I'll discuss the doping effect.",Own
+Speaking,Transition,过渡到下一部分,Let's turn to [next point].,Let's turn to the low-temperature data.,Own
+Speaking,Key takeaway,强调要点,The key takeaway here is [point].,The key takeaway here is that the transition is reversible.,Own
+Speaking,Data commentary,讲图,The dashed line marks [meaning].,The dashed line marks the charge-neutral point.,Own
+Speaking,Careful interpretation,谨慎解释,"We believe this is due to [mechanism], although [caveat].","We believe this is due to screening, although we cannot exclude contact effects.",Own
+Speaking,Handling a question,回答问题,That's a good question. I should first clarify [definition].,That's a good question. I should first clarify what we mean by 'clean'.,Own
+Speaking,Closing,收尾,"To summarize, [one sentence]. I'd be happy to take questions.","To summarize, dual gating gives us a reversible handle on stacking order. I'd be happy to take questions.",Own

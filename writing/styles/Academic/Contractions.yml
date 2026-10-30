@@ -1,0 +1,6 @@
+extends: existence
+message: "Avoid contractions in formal academic prose: “%s”."
+level: suggestion
+ignorecase: true
+tokens:
+  - '\b(don''t|don’t|doesn''t|doesn’t|isn''t|isn’t|aren''t|aren’t|can''t|can’t|won''t|won’t|it''s|it’s|that''s|that’s|we''re|we’re|we''ve|we’ve|I''m|I’m|you''re|you’re|they''re|they’re|didn''t|didn’t|wasn''t|wasn’t|weren''t|weren’t|hasn''t|hasn’t|haven''t|haven’t)\b'

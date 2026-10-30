@@ -1,0 +1,62 @@
+{
+  "ltex.language": "en-US",
+  "ltex.enabled": ["bibtex", "latex", "markdown", "plaintext"],
+  "ltex.additionalRules.enablePickyRules": true,
+  "ltex.dictionary": {
+    "en-US": [
+      "graphene",
+      "hBN",
+      "F4-TCNQ",
+      "TCNQ",
+      "PMMA",
+      "SiO2",
+      "MoS2",
+      "WSe2",
+      "Hall bar",
+      "back-gate",
+      "top-gate",
+      "dual-gate",
+      "transfer curve",
+      "hysteresis",
+      "photoresist",
+      "electron-beam lithography",
+      "KLayout",
+      "van der Waals",
+      "moiré",
+      "rhombohedral",
+      "compressibility",
+      "dielectric",
+      "substrate",
+      "annealing",
+      "encapsulation",
+      "displacement field",
+      "carrier density",
+      "charge neutrality",
+      "mobility",
+      "quantum Hall",
+      "near-field",
+      "SNOM"
+    ]
+  },
+  "ltex.latex.commands": {
+    "\\cite": "{}",
+    "\\citep": "{}",
+    "\\citet": "{}",
+    "\\ref": "{}",
+    "\\eqref": "{}",
+    "\\label": "{}"
+  },
+  "ltex.latex.environments": {
+    "equation": "math",
+    "align": "math",
+    "eqnarray": "math",
+    "displaymath": "math"
+  },
+  "ltex.bibtex.fields": {
+    "title": true,
+    "journaltitle": true,
+    "booktitle": true
+  },
+  "ltex.completionEnabled": true,
+  "ltex.statusBarItem": true
+}
